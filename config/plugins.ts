@@ -8,14 +8,14 @@ export default ({ env }) => ({
           port: 587, 
           secure: false,
           auth: {
-            user: env('SMTP_USER'),
-            pass: env('SMTP_PASS')
+            user: '74ec60001@smtp-brevo.com',
+            pass: 'dvrIa2VGXPB9SfDx'
           }
         }
       },
       settings: {
-        defaultFrom: env('SMTP_FROM'),
-        defaultReplyTo: env('SMTP_REPLY_TO')
+        defaultFrom: 'tak@add-values.com',
+        defaultReplyTo: 'tak@add-values.com'
       }
     }
   }
