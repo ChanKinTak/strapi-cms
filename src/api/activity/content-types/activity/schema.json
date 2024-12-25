@@ -1,0 +1,40 @@
+{
+  "kind": "collectionType",
+  "collectionName": "activities",
+  "info": {
+    "singularName": "activity",
+    "pluralName": "activities",
+    "displayName": "Activity"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "total_quota": {
+      "type": "integer"
+    },
+    "activity_status": {
+      "type": "enumeration",
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    },
+    "activity_date": {
+      "type": "datetime"
+    },
+    "conference_registration": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::conference-registration.conference-registration",
+      "mappedBy": "activity"
+    }
+  }
+}

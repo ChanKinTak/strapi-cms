@@ -1,0 +1,21 @@
+{
+  "kind": "collectionType",
+  "collectionName": "privacy_consents",
+  "info": {
+    "singularName": "privacy-consent",
+    "pluralName": "privacy-consents",
+    "displayName": "Privacy_Consent"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "has_consented": {
+      "type": "boolean"
+    },
+    "consent_date": {
+      "type": "date"
+    }
+  }
+}

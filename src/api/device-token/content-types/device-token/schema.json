@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "device_tokens",
+  "info": {
+    "singularName": "device-token",
+    "pluralName": "device-tokens",
+    "displayName": "Device_Token"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "employee": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::employee.employee",
+      "inversedBy": "device_tokens"
+    },
+    "device_token": {
+      "type": "string",
+      "required": true
+    },
+    "device_type": {
+      "type": "enumeration",
+      "enum": [
+        "iOS",
+        "Android"
+      ]
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

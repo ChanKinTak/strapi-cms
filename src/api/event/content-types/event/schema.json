@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "events",
+  "info": {
+    "singularName": "event",
+    "pluralName": "events",
+    "displayName": "Event"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string"
+    },
+    "start_time": {
+      "type": "datetime"
+    },
+    "end_time": {
+      "type": "datetime"
+    },
+    "description": {
+      "type": "blocks"
+    },
+    "event_status": {
+      "type": "enumeration",
+      "enum": [
+        "Scheduled",
+        "Cancelled",
+        "Completed"
+      ]
+    }
+  }
+}

@@ -1,0 +1,111 @@
+{
+  "kind": "collectionType",
+  "collectionName": "conference_registrations",
+  "info": {
+    "singularName": "conference-registration",
+    "pluralName": "conference-registrations",
+    "displayName": "Conference_Registration",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "employee": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::employee.employee",
+      "inversedBy": "employee_conf"
+    },
+    "chinese_name": {
+      "type": "string"
+    },
+    "english_surname": {
+      "type": "string"
+    },
+    "english_given_name": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "enumeration",
+      "enum": [
+        "Male",
+        "Female"
+      ]
+    },
+    "birth_date": {
+      "type": "date"
+    },
+    "phone_number": {
+      "type": "string"
+    },
+    "travel_document_type": {
+      "type": "string"
+    },
+    "passport_number": {
+      "type": "string"
+    },
+    "passport_expiry": {
+      "type": "date"
+    },
+    "emergency_contact_name": {
+      "type": "string"
+    },
+    "emergency_contact_phone": {
+      "type": "string"
+    },
+    "emergency_contact_relation": {
+      "type": "enumeration",
+      "enum": [
+        "Family",
+        "Friend",
+        "Colleague",
+        "Other"
+      ]
+    },
+    "emergency_contact_other": {
+      "type": "string"
+    },
+    "flight_arrangement": {
+      "type": "string"
+    },
+    "room_arrangement": {
+      "type": "string"
+    },
+    "room_partner": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::employee.employee"
+    },
+    "welcome_party_attendance": {
+      "type": "boolean"
+    },
+    "activity": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::activity.activity",
+      "inversedBy": "conference_registration"
+    },
+    "theater_attendance": {
+      "type": "boolean"
+    },
+    "meal_preference": {
+      "type": "enumeration",
+      "enum": [
+        "Normal",
+        "Vegetarian",
+        "Other"
+      ]
+    },
+    "meal_other": {
+      "type": "string"
+    },
+    "createdat": {
+      "type": "datetime"
+    },
+    "updatedat": {
+      "type": "datetime"
+    }
+  }
+}

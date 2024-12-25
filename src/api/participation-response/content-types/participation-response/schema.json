@@ -1,0 +1,30 @@
+{
+  "kind": "collectionType",
+  "collectionName": "participation_responses",
+  "info": {
+    "singularName": "participation-response",
+    "pluralName": "participation-responses",
+    "displayName": "Participation_Response"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "related_employee": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::employee.employee",
+      "inversedBy": "participation_response"
+    },
+    "will_participate": {
+      "type": "boolean"
+    },
+    "response_date": {
+      "type": "datetime"
+    },
+    "has_responded": {
+      "type": "boolean"
+    }
+  }
+}

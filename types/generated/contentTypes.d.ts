@@ -369,6 +369,359 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
+  collectionName: 'activities';
+  info: {
+    displayName: 'Activity';
+    pluralName: 'activities';
+    singularName: 'activity';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    activity_date: Schema.Attribute.DateTime;
+    activity_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
+    conference_registration: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::conference-registration.conference-registration'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Blocks;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::activity.activity'
+    > &
+      Schema.Attribute.Private;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    total_quota: Schema.Attribute.Integer;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiConferenceRegistrationConferenceRegistration
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'conference_registrations';
+  info: {
+    description: '';
+    displayName: 'Conference_Registration';
+    pluralName: 'conference-registrations';
+    singularName: 'conference-registration';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    activity: Schema.Attribute.Relation<'oneToOne', 'api::activity.activity'>;
+    birth_date: Schema.Attribute.Date;
+    chinese_name: Schema.Attribute.String;
+    createdat: Schema.Attribute.DateTime;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    emergency_contact_name: Schema.Attribute.String;
+    emergency_contact_other: Schema.Attribute.String;
+    emergency_contact_phone: Schema.Attribute.String;
+    emergency_contact_relation: Schema.Attribute.Enumeration<
+      ['Family', 'Friend', 'Colleague', 'Other']
+    >;
+    employee: Schema.Attribute.Relation<'oneToOne', 'api::employee.employee'>;
+    english_given_name: Schema.Attribute.String;
+    english_surname: Schema.Attribute.String;
+    flight_arrangement: Schema.Attribute.String;
+    gender: Schema.Attribute.Enumeration<['Male', 'Female']>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::conference-registration.conference-registration'
+    > &
+      Schema.Attribute.Private;
+    meal_other: Schema.Attribute.String;
+    meal_preference: Schema.Attribute.Enumeration<
+      ['Normal', 'Vegetarian', 'Other']
+    >;
+    passport_expiry: Schema.Attribute.Date;
+    passport_number: Schema.Attribute.String;
+    phone_number: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    room_arrangement: Schema.Attribute.String;
+    room_partner: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::employee.employee'
+    >;
+    theater_attendance: Schema.Attribute.Boolean;
+    travel_document_type: Schema.Attribute.String;
+    updatedat: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    welcome_party_attendance: Schema.Attribute.Boolean;
+  };
+}
+
+export interface ApiDeviceTokenDeviceToken extends Struct.CollectionTypeSchema {
+  collectionName: 'device_tokens';
+  info: {
+    displayName: 'Device_Token';
+    pluralName: 'device-tokens';
+    singularName: 'device-token';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    device_token: Schema.Attribute.String & Schema.Attribute.Required;
+    device_type: Schema.Attribute.Enumeration<['iOS', 'Android']>;
+    employee: Schema.Attribute.Relation<'manyToOne', 'api::employee.employee'>;
+    is_active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::device-token.device-token'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEmployeeEmployee extends Struct.CollectionTypeSchema {
+  collectionName: 'employees';
+  info: {
+    displayName: 'Employee';
+    pluralName: 'employees';
+    singularName: 'employee';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    device_tokens: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::device-token.device-token'
+    >;
+    email: Schema.Attribute.Email;
+    employee_conf: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::conference-registration.conference-registration'
+    >;
+    employee_id: Schema.Attribute.String;
+    employee_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
+    is_first_login: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    last_login_time: Schema.Attribute.DateTime;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::employee.employee'
+    > &
+      Schema.Attribute.Private;
+    participation_response: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::participation-response.participation-response'
+    >;
+    password: Schema.Attribute.Password;
+    publishedAt: Schema.Attribute.DateTime;
+    reset_password_token: Schema.Attribute.String;
+    reset_token_expires: Schema.Attribute.DateTime;
+    target_users_employees: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::notification.notification'
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiEventEvent extends Struct.CollectionTypeSchema {
+  collectionName: 'events';
+  info: {
+    displayName: 'Event';
+    pluralName: 'events';
+    singularName: 'event';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    description: Schema.Attribute.Blocks;
+    end_time: Schema.Attribute.DateTime;
+    event_status: Schema.Attribute.Enumeration<
+      ['Scheduled', 'Cancelled', 'Completed']
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    start_time: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
+  collectionName: 'faqs';
+  info: {
+    displayName: 'FAQ';
+    pluralName: 'faqs';
+    singularName: 'faq';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    answer: Schema.Attribute.Blocks & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    display_order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
+    faq_status: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    last_updated: Schema.Attribute.DateTime & Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    question: Schema.Attribute.Blocks & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNotificationNotification
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'notifications';
+  info: {
+    description: '';
+    displayName: 'Notification';
+    pluralName: 'notifications';
+    singularName: 'notification';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    is_read: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification.notification'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.String & Schema.Attribute.Required;
+    notification_status: Schema.Attribute.Enumeration<
+      ['Pending', 'Sent', 'Failed']
+    >;
+    priority: Schema.Attribute.Enumeration<['High', 'Normal', 'Low']>;
+    publishedAt: Schema.Attribute.DateTime;
+    send_time: Schema.Attribute.DateTime;
+    target_users: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::employee.employee'
+    >;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    type: Schema.Attribute.Enumeration<
+      [
+        'System_Announcement',
+        'Registration_Reminder',
+        'Activity_Update',
+        'Room_Matching',
+        'Emergency_Notice',
+      ]
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiParticipationResponseParticipationResponse
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'participation_responses';
+  info: {
+    displayName: 'Participation_Response';
+    pluralName: 'participation-responses';
+    singularName: 'participation-response';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    has_responded: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::participation-response.participation-response'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    related_employee: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::employee.employee'
+    >;
+    response_date: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    will_participate: Schema.Attribute.Boolean;
+  };
+}
+
+export interface ApiPrivacyConsentPrivacyConsent
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'privacy_consents';
+  info: {
+    displayName: 'Privacy_Consent';
+    pluralName: 'privacy-consents';
+    singularName: 'privacy-consent';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    consent_date: Schema.Attribute.Date;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    has_consented: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::privacy-consent.privacy-consent'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -878,6 +1231,15 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::activity.activity': ApiActivityActivity;
+      'api::conference-registration.conference-registration': ApiConferenceRegistrationConferenceRegistration;
+      'api::device-token.device-token': ApiDeviceTokenDeviceToken;
+      'api::employee.employee': ApiEmployeeEmployee;
+      'api::event.event': ApiEventEvent;
+      'api::faq.faq': ApiFaqFaq;
+      'api::notification.notification': ApiNotificationNotification;
+      'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
+      'api::privacy-consent.privacy-consent': ApiPrivacyConsentPrivacyConsent;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

@@ -1,0 +1,68 @@
+{
+  "kind": "collectionType",
+  "collectionName": "employees",
+  "info": {
+    "singularName": "employee",
+    "pluralName": "employees",
+    "displayName": "Employee"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "employee_id": {
+      "type": "string"
+    },
+    "email": {
+      "type": "email"
+    },
+    "password": {
+      "type": "password"
+    },
+    "is_first_login": {
+      "type": "boolean",
+      "default": true
+    },
+    "reset_password_token": {
+      "type": "string"
+    },
+    "reset_token_expires": {
+      "type": "datetime"
+    },
+    "last_login_time": {
+      "type": "datetime"
+    },
+    "employee_status": {
+      "type": "enumeration",
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    },
+    "device_tokens": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::device-token.device-token",
+      "mappedBy": "employee"
+    },
+    "target_users_employees": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::notification.notification",
+      "mappedBy": "target_users"
+    },
+    "participation_response": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::participation-response.participation-response",
+      "mappedBy": "related_employee"
+    },
+    "employee_conf": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::conference-registration.conference-registration",
+      "mappedBy": "employee"
+    }
+  }
+}
