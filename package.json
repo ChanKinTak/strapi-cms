@@ -27,9 +27,9 @@
     "@types/react-dom": "^18",
     "typescript": "^5"
   },
-  "engines": {
-    "node": ">=18.0.0 <=22.x.x",
-    "npm": ">=6.0.0"
+ "engines": {
+    "node": "21.x",
+    "npm": "10.x"
   },
   "strapi": {
     "uuid": "20b063e1-d071-43bd-8eed-78288b8d156f"
