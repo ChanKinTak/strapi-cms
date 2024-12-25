@@ -3,12 +3,12 @@ export default () => ({
         config: {
           provider: 'strapi-provider-email-brevo',
           providerOptions: {
-            apiKey: process.env.SENDINBLUE_API_KEY,
+            apiKey: env("BREVO_API_KEY"),
           },
           settings: {
-            defaultSenderEmail: 'tak@add-values.com',
+            defaultFrom: env("EMAIL_DEFAULT_FROM"), 
             defaultSenderName: 'Admin',
-            defaultReplyTo: 'tak@add-values.com',
+            defaultReplyTo: env("EMAIL_DEFAULT_REPLY_TO"), 
           },
         },
       }
