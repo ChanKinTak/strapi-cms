@@ -1,22 +1,22 @@
-export default {
+export default ({ env }) => ({
   email: {
     config: {
       provider: '@strapi/provider-email-sendmail',
       providerOptions: {
         smtp: {
-          host: process.env.SMTP_HOST,
-          port: Number(process.env.SMTP_PORT),
-          secure: process.env.SMTP_SECURE === 'true',
+          host: env('SMTP_HOST'),
+          port: env('SMTP_PORT'), 
+          secure: false,
           auth: {
-            user: process.env.SMTP_USER,
-            pass: process.env.SMTP_PASS
+            user: env('SMTP_USER'),
+            pass: env('SMTP_PASS')
           }
         }
       },
       settings: {
-        defaultFrom: process.env.SMTP_FROM,
-        defaultReplyTo: process.env.SMTP_REPLY_TO
+        defaultFrom: env('SMTP_FROM'),
+        defaultReplyTo: env('SMTP_REPLY_TO')
       }
     }
   }
-} as const;
+});
