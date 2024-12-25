@@ -7,6 +7,7 @@ export default ({ env }) => ({
       },
       settings: {
         defaultFrom: env("EMAIL_DEFAULT_FROM"), // 默认发件人
+        defaultSenderName: 'Admin',
         defaultReplyTo: env("EMAIL_DEFAULT_REPLY_TO"), // 默认回复地址
       },
     },
