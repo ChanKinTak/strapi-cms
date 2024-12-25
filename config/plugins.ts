@@ -4,8 +4,8 @@ export default ({ env }) => ({
       provider: '@strapi/provider-email-sendmail',
       providerOptions: {
         smtp: {
-          host: env('SMTP_HOST'),
-          port: env('SMTP_PORT'), 
+          host: 'smtp-relay.brevo.com',
+          port: 587, 
           secure: false,
           auth: {
             user: env('SMTP_USER'),
