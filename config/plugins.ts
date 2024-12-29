@@ -8,8 +8,8 @@ export default ({ env }) => ({
           port: 587, 
           secure: false,
           auth: {
-            user: '74ec60001@smtp-brevo.com',
-            pass: 'dvrIa2VGXPB9SfDx'
+            user: env('SMTP_USERNAME'),
+            pass: env('SMTP_PASSWORD')
           }
         }
       },
