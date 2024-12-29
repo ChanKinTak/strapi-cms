@@ -4,7 +4,8 @@
   "info": {
     "singularName": "event",
     "pluralName": "events",
-    "displayName": "Event"
+    "displayName": "Event",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,11 +15,8 @@
     "title": {
       "type": "string"
     },
-    "start_time": {
-      "type": "datetime"
-    },
-    "end_time": {
-      "type": "datetime"
+    "date": {
+      "type": "date"
     },
     "description": {
       "type": "blocks"
@@ -26,9 +24,8 @@
     "event_status": {
       "type": "enumeration",
       "enum": [
-        "Scheduled",
-        "Cancelled",
-        "Completed"
+        "Active",
+        "Inactive"
       ]
     }
   }

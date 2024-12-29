@@ -550,6 +550,7 @@ export interface ApiEmployeeEmployee extends Struct.CollectionTypeSchema {
 export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   collectionName: 'events';
   info: {
+    description: '';
     displayName: 'Event';
     pluralName: 'events';
     singularName: 'event';
@@ -561,46 +562,14 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
     description: Schema.Attribute.Blocks;
-    end_time: Schema.Attribute.DateTime;
-    event_status: Schema.Attribute.Enumeration<
-      ['Scheduled', 'Cancelled', 'Completed']
-    >;
+    event_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    start_time: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
-  collectionName: 'faqs';
-  info: {
-    displayName: 'FAQ';
-    pluralName: 'faqs';
-    singularName: 'faq';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    answer: Schema.Attribute.Blocks & Schema.Attribute.Required;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    display_order: Schema.Attribute.Integer & Schema.Attribute.DefaultTo<0>;
-    faq_status: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    last_updated: Schema.Attribute.DateTime & Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    question: Schema.Attribute.Blocks & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1236,7 +1205,6 @@ declare module '@strapi/strapi' {
       'api::device-token.device-token': ApiDeviceTokenDeviceToken;
       'api::employee.employee': ApiEmployeeEmployee;
       'api::event.event': ApiEventEvent;
-      'api::faq.faq': ApiFaqFaq;
       'api::notification.notification': ApiNotificationNotification;
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
       'api::privacy-consent.privacy-consent': ApiPrivacyConsentPrivacyConsent;
