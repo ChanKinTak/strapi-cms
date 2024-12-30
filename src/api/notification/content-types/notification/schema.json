@@ -12,6 +12,20 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "notifications_user"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "room_invitation",
+        "registration_reminder",
+        "status_update"
+      ]
+    },
     "title": {
       "type": "string",
       "required": true
@@ -20,44 +34,15 @@
       "type": "string",
       "required": true
     },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "System_Announcement",
-        "Registration_Reminder",
-        "Activity_Update",
-        "Room_Matching",
-        "Emergency_Notice"
-      ]
-    },
-    "notification_status": {
-      "type": "enumeration",
-      "enum": [
-        "Pending",
-        "Sent",
-        "Failed"
-      ]
-    },
-    "target_users": {
-      "type": "relation",
-      "relation": "manyToMany",
-      "target": "api::employee.employee",
-      "inversedBy": "target_users_employees"
-    },
-    "send_time": {
-      "type": "datetime"
-    },
-    "is_read": {
+    "isRead": {
       "type": "boolean",
       "default": false
     },
-    "priority": {
-      "type": "enumeration",
-      "enum": [
-        "High",
-        "Normal",
-        "Low"
-      ]
+    "related_invitation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::room-sharing-invitation.room-sharing-invitation",
+      "inversedBy": "notification_relatedInvitation"
     }
   }
 }

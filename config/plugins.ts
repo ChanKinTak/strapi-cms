@@ -6,7 +6,7 @@ export default ({ env }) => ({
         smtp: {
           host: 'smtp-relay.brevo.com',
           port: 587, 
-          secure: false,
+          secure: true,
           auth: {
             user: env('SMTP_USERNAME'),
             pass: env('SMTP_PASSWORD')

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "activity",
     "pluralName": "activities",
-    "displayName": "Activity"
+    "displayName": "Activity",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -26,15 +27,6 @@
         "Active",
         "Inactive"
       ]
-    },
-    "activity_date": {
-      "type": "datetime"
-    },
-    "conference_registration": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::conference-registration.conference-registration",
-      "mappedBy": "activity"
     }
   }
 }

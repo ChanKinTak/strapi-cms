@@ -11,12 +11,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "employee": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::employee.employee",
-      "inversedBy": "device_tokens"
-    },
     "device_token": {
       "type": "string",
       "required": true

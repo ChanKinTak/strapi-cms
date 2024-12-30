@@ -1,0 +1,120 @@
+{
+  "kind": "collectionType",
+  "collectionName": "up_users",
+  "info": {
+    "name": "user",
+    "description": "",
+    "singularName": "user",
+    "pluralName": "users",
+    "displayName": "User"
+  },
+  "options": {
+    "draftAndPublish": false
+  },
+  "attributes": {
+    "username": {
+      "type": "string",
+      "minLength": 3,
+      "unique": true,
+      "configurable": false,
+      "required": true
+    },
+    "email": {
+      "type": "email",
+      "minLength": 6,
+      "configurable": false,
+      "required": true
+    },
+    "provider": {
+      "type": "string",
+      "configurable": false
+    },
+    "password": {
+      "type": "password",
+      "minLength": 6,
+      "configurable": false,
+      "private": true,
+      "searchable": false
+    },
+    "resetPasswordToken": {
+      "type": "string",
+      "configurable": false,
+      "private": true,
+      "searchable": false
+    },
+    "confirmationToken": {
+      "type": "string",
+      "configurable": false,
+      "private": true,
+      "searchable": false
+    },
+    "confirmed": {
+      "type": "boolean",
+      "default": false,
+      "configurable": false
+    },
+    "blocked": {
+      "type": "boolean",
+      "default": false,
+      "configurable": false
+    },
+    "role": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.role",
+      "inversedBy": "users",
+      "configurable": false
+    },
+    "employeeId": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "tempPassword": {
+      "type": "string",
+      "private": true
+    },
+    "tempPasswordExpiry": {
+      "type": "datetime"
+    },
+    "department": {
+      "type": "string"
+    },
+    "user_relat": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::conference-registration.conference-registration",
+      "mappedBy": "user"
+    },
+    "terms_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::terms-acceptance.terms-acceptance",
+      "mappedBy": "user"
+    },
+    "roommate_user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::conference-registration.conference-registration",
+      "mappedBy": "roommate"
+    },
+    "sender_user": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::room-sharing-invitation.room-sharing-invitation",
+      "mappedBy": "sender"
+    },
+    "receiver_user": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::room-sharing-invitation.room-sharing-invitation",
+      "mappedBy": "receiver"
+    },
+    "notifications_user": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::notification.notification",
+      "mappedBy": "user"
+    }
+  }
+}
