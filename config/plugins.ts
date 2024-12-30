@@ -10,7 +10,9 @@ export default ({ env }) => ({
           auth: {
             user: env('SMTP_USERNAME'),
             pass: env('SMTP_PASSWORD')
-          }
+          },
+          requireTLS: true,
+          logger: true  // 添加这行来获取详细日志
         }
       },
       settings: {
