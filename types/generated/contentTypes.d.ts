@@ -1190,6 +1190,7 @@ export interface PluginUsersPermissionsUser
     employeeId: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1224,8 +1225,6 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::room-sharing-invitation.room-sharing-invitation'
     >;
-    tempPassword: Schema.Attribute.String & Schema.Attribute.Private;
-    tempPasswordExpiry: Schema.Attribute.DateTime;
     terms_user: Schema.Attribute.Relation<
       'oneToOne',
       'api::terms-acceptance.terms-acceptance'

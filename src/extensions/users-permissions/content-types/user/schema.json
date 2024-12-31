@@ -70,13 +70,6 @@
       "required": true,
       "unique": true
     },
-    "tempPassword": {
-      "type": "string",
-      "private": true
-    },
-    "tempPasswordExpiry": {
-      "type": "datetime"
-    },
     "department": {
       "type": "string"
     },
@@ -115,6 +108,10 @@
       "relation": "oneToMany",
       "target": "api::notification.notification",
       "mappedBy": "user"
+    },
+    "isFirstLogin": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
