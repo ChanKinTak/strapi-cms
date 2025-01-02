@@ -112,6 +112,12 @@
     "isFirstLogin": {
       "type": "boolean",
       "default": true
+    },
+    "participation_response": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::participation-response.participation-response",
+      "mappedBy": "user"
     }
   }
 }

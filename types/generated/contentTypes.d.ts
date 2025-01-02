@@ -591,7 +591,7 @@ export interface ApiParticipationResponseParticipationResponse
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isParticipating: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    isParticipating: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -602,6 +602,10 @@ export interface ApiParticipationResponseParticipationResponse
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -1200,6 +1204,10 @@ export interface PluginUsersPermissionsUser
     notifications_user: Schema.Attribute.Relation<
       'oneToMany',
       'api::notification.notification'
+    >;
+    participation_response: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::participation-response.participation-response'
     >;
     password: Schema.Attribute.Password &
       Schema.Attribute.Private &

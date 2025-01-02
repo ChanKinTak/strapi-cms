@@ -12,9 +12,14 @@
   },
   "pluginOptions": {},
   "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "participation_response"
+    },
     "isParticipating": {
-      "type": "boolean",
-      "required": true
+      "type": "boolean"
     }
   }
 }
