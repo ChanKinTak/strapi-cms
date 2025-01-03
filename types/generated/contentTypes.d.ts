@@ -385,8 +385,9 @@ export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     currentParticipants: Schema.Attribute.Integer;
+    date: Schema.Attribute.Date;
     description: Schema.Attribute.Blocks;
-    isActive: Schema.Attribute.Boolean & Schema.Attribute.Required;
+    isActive: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

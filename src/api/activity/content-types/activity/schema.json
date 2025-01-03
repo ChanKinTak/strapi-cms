@@ -24,9 +24,11 @@
     "currentParticipants": {
       "type": "integer"
     },
+    "date": {
+      "type": "date"
+    },
     "isActive": {
-      "type": "boolean",
-      "required": true
+      "type": "boolean"
     }
   }
 }
