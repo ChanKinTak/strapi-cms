@@ -79,35 +79,11 @@
       "target": "api::conference-registration.conference-registration",
       "mappedBy": "user"
     },
-    "terms_user": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::terms-acceptance.terms-acceptance",
-      "mappedBy": "user"
-    },
     "roommate_user": {
       "type": "relation",
       "relation": "oneToOne",
       "target": "api::conference-registration.conference-registration",
       "mappedBy": "roommate"
-    },
-    "sender_user": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::room-sharing-invitation.room-sharing-invitation",
-      "mappedBy": "sender"
-    },
-    "receiver_user": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::room-sharing-invitation.room-sharing-invitation",
-      "mappedBy": "receiver"
-    },
-    "notifications_user": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::notification.notification",
-      "mappedBy": "user"
     },
     "isFirstLogin": {
       "type": "boolean",
@@ -118,6 +94,20 @@
       "relation": "oneToOne",
       "target": "api::participation-response.participation-response",
       "mappedBy": "user"
+    },
+    "group": {
+      "type": "enumeration",
+      "enum": [
+        "Group1",
+        "Group2",
+        "Group3"
+      ]
+    },
+    "registration_settings": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::registration-setting.registration-setting",
+      "mappedBy": "authorizedEditors"
     }
   }
 }

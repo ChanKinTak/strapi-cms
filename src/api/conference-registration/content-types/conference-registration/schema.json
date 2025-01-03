@@ -122,12 +122,6 @@
         "XXL"
       ],
       "required": true
-    },
-    "registration_reg": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::room-sharing-invitation.room-sharing-invitation",
-      "mappedBy": "registration"
     }
   }
 }

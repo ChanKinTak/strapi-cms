@@ -1,0 +1,35 @@
+{
+  "kind": "collectionType",
+  "collectionName": "registration_settings",
+  "info": {
+    "singularName": "registration-setting",
+    "pluralName": "registration-settings",
+    "displayName": "Registration Settings"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "editStartDate": {
+      "type": "date",
+      "required": true
+    },
+    "editEndDate": {
+      "type": "date"
+    },
+    "authorizedEditors": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "registration_settings"
+    },
+    "registration_status": {
+      "type": "enumeration",
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    }
+  }
+}

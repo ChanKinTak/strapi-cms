@@ -381,20 +381,21 @@ export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    activity_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    currentParticipants: Schema.Attribute.Integer;
     description: Schema.Attribute.Blocks;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::activity.activity'
     > &
       Schema.Attribute.Private;
+    maxParticipants: Schema.Attribute.Integer;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    total_quota: Schema.Attribute.Integer;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -453,10 +454,6 @@ export interface ApiConferenceRegistrationConferenceRegistration
     phoneNumber: Schema.Attribute.String & Schema.Attribute.Required;
     preferredRoommateId: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    registration_reg: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::room-sharing-invitation.room-sharing-invitation'
-    >;
     roommate: Schema.Attribute.Relation<
       'oneToOne',
       'plugin::users-permissions.user'
@@ -470,36 +467,6 @@ export interface ApiConferenceRegistrationConferenceRegistration
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-  };
-}
-
-export interface ApiDeviceTokenDeviceToken extends Struct.CollectionTypeSchema {
-  collectionName: 'device_tokens';
-  info: {
-    displayName: 'Device_Token';
-    pluralName: 'device-tokens';
-    singularName: 'device-token';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    device_token: Schema.Attribute.String & Schema.Attribute.Required;
-    device_type: Schema.Attribute.Enumeration<['iOS', 'Android']>;
-    is_active: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::device-token.device-token'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
   };
 }
 
@@ -529,49 +496,6 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-  };
-}
-
-export interface ApiNotificationNotification
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'notifications';
-  info: {
-    description: '';
-    displayName: 'Notification';
-    pluralName: 'notifications';
-    singularName: 'notification';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    isRead: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::notification.notification'
-    > &
-      Schema.Attribute.Private;
-    message: Schema.Attribute.String & Schema.Attribute.Required;
-    publishedAt: Schema.Attribute.DateTime;
-    related_invitation: Schema.Attribute.Relation<
-      'oneToOne',
-      'api::room-sharing-invitation.room-sharing-invitation'
-    >;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    type: Schema.Attribute.Enumeration<
-      ['room_invitation', 'registration_reminder', 'status_update']
-    >;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -609,116 +533,38 @@ export interface ApiParticipationResponseParticipationResponse
   };
 }
 
-export interface ApiPrivacyConsentPrivacyConsent
+export interface ApiRegistrationSettingRegistrationSetting
   extends Struct.CollectionTypeSchema {
-  collectionName: 'privacy_consents';
+  collectionName: 'registration_settings';
   info: {
-    displayName: 'Privacy_Consent';
-    pluralName: 'privacy-consents';
-    singularName: 'privacy-consent';
+    displayName: 'Registration Settings';
+    pluralName: 'registration-settings';
+    singularName: 'registration-setting';
   };
   options: {
     draftAndPublish: true;
   };
   attributes: {
-    consent_date: Schema.Attribute.Date;
+    authorizedEditors: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    has_consented: Schema.Attribute.Boolean;
+    editEndDate: Schema.Attribute.Date;
+    editStartDate: Schema.Attribute.Date & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
-      'api::privacy-consent.privacy-consent'
+      'api::registration-setting.registration-setting'
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    registration_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-  };
-}
-
-export interface ApiRoomSharingInvitationRoomSharingInvitation
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'room_sharing_invitations';
-  info: {
-    displayName: 'Room Sharing Invitation';
-    pluralName: 'room-sharing-invitations';
-    singularName: 'room-sharing-invitation';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::room-sharing-invitation.room-sharing-invitation'
-    > &
-      Schema.Attribute.Private;
-    notification_relatedInvitation: Schema.Attribute.Relation<
-      'oneToOne',
-      'api::notification.notification'
-    >;
-    publishedAt: Schema.Attribute.DateTime;
-    receiver: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    registration: Schema.Attribute.Relation<
-      'manyToOne',
-      'api::conference-registration.conference-registration'
-    >;
-    room_status: Schema.Attribute.Enumeration<
-      ['pending', 'accepted', 'declined']
-    > &
-      Schema.Attribute.DefaultTo<'pending'>;
-    sender: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiTermsAcceptanceTermsAcceptance
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'terms_acceptances';
-  info: {
-    displayName: 'TermsAcceptance';
-    pluralName: 'terms-acceptances';
-    singularName: 'terms-acceptance';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    hasAcceptedTerms: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<false>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::terms-acceptance.terms-acceptance'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
   };
 }
 
@@ -1194,6 +1040,7 @@ export interface PluginUsersPermissionsUser
     employeeId: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    group: Schema.Attribute.Enumeration<['Group1', 'Group2', 'Group3']>;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -1201,10 +1048,6 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
-    notifications_user: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::notification.notification'
-    >;
     participation_response: Schema.Attribute.Relation<
       'oneToOne',
       'api::participation-response.participation-response'
@@ -1216,9 +1059,9 @@ export interface PluginUsersPermissionsUser
       }>;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
-    receiver_user: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::room-sharing-invitation.room-sharing-invitation'
+    registration_settings: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::registration-setting.registration-setting'
     >;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
     role: Schema.Attribute.Relation<
@@ -1228,14 +1071,6 @@ export interface PluginUsersPermissionsUser
     roommate_user: Schema.Attribute.Relation<
       'oneToOne',
       'api::conference-registration.conference-registration'
-    >;
-    sender_user: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::room-sharing-invitation.room-sharing-invitation'
-    >;
-    terms_user: Schema.Attribute.Relation<
-      'oneToOne',
-      'api::terms-acceptance.terms-acceptance'
     >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1265,13 +1100,9 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::activity.activity': ApiActivityActivity;
       'api::conference-registration.conference-registration': ApiConferenceRegistrationConferenceRegistration;
-      'api::device-token.device-token': ApiDeviceTokenDeviceToken;
       'api::event.event': ApiEventEvent;
-      'api::notification.notification': ApiNotificationNotification;
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
-      'api::privacy-consent.privacy-consent': ApiPrivacyConsentPrivacyConsent;
-      'api::room-sharing-invitation.room-sharing-invitation': ApiRoomSharingInvitationRoomSharingInvitation;
-      'api::terms-acceptance.terms-acceptance': ApiTermsAcceptanceTermsAcceptance;
+      'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

@@ -18,15 +18,15 @@
     "description": {
       "type": "blocks"
     },
-    "total_quota": {
+    "maxParticipants": {
       "type": "integer"
     },
-    "activity_status": {
-      "type": "enumeration",
-      "enum": [
-        "Active",
-        "Inactive"
-      ]
+    "currentParticipants": {
+      "type": "integer"
+    },
+    "isActive": {
+      "type": "boolean",
+      "required": true
     }
   }
 }
