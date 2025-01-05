@@ -113,12 +113,6 @@
       "target": "api::registration.registration",
       "mappedBy": "relation"
     },
-    "registration_confirmedRoommate": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::registration.registration",
-      "mappedBy": "confirmedRoommate"
-    },
     "sentRoommateRequests": {
       "type": "relation",
       "relation": "oneToMany",

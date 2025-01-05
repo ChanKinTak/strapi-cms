@@ -516,10 +516,8 @@ export interface ApiRegistrationRegistration
   attributes: {
     birthDate: Schema.Attribute.Date;
     chineseName: Schema.Attribute.String;
-    confirmedRoommate: Schema.Attribute.Relation<
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
+    confirmedRoommate: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -583,10 +581,12 @@ export interface ApiRoommateRequestRoommateRequest
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    receive_name: Schema.Attribute.String;
     receive_user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    requesting_name: Schema.Attribute.String;
     requesting_user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
@@ -1098,10 +1098,6 @@ export interface PluginUsersPermissionsUser
       'api::roommate-request.roommate-request'
     >;
     registration: Schema.Attribute.Relation<
-      'oneToOne',
-      'api::registration.registration'
-    >;
-    registration_confirmedRoommate: Schema.Attribute.Relation<
       'oneToOne',
       'api::registration.registration'
     >;

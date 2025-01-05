@@ -32,6 +32,12 @@
         "rejected",
         "cancelled"
       ]
+    },
+    "requesting_name": {
+      "type": "string"
+    },
+    "receive_name": {
+      "type": "string"
     }
   }
 }
