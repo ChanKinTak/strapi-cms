@@ -1097,6 +1097,7 @@ export interface PluginUsersPermissionsUser
     employeeId: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
+    full_name: Schema.Attribute.String;
     Group: Schema.Attribute.Enumeration<['Group01', 'Group02']>;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;

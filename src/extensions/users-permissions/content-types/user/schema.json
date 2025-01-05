@@ -133,6 +133,9 @@
     },
     "confitmRoommateRequest": {
       "type": "boolean"
+    },
+    "full_name": {
+      "type": "string"
     }
   }
 }
