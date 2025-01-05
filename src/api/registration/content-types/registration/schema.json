@@ -87,6 +87,12 @@
     "confirmedRoommate": {
       "type": "boolean",
       "default": false
+    },
+    "email": {
+      "type": "email"
+    },
+    "tnc": {
+      "type": "boolean"
     }
   }
 }

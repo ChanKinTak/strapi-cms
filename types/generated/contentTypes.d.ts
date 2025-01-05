@@ -522,6 +522,7 @@ export interface ApiRegistrationRegistration
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     dietaryPreference: Schema.Attribute.String;
+    email: Schema.Attribute.Email;
     emergencyContact: Schema.Attribute.String;
     emergencyContactRelationship: Schema.Attribute.String;
     emergencyContactRelationshipOther: Schema.Attribute.String;
@@ -546,6 +547,7 @@ export interface ApiRegistrationRegistration
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    tnc: Schema.Attribute.Boolean;
     tour16May: Schema.Attribute.String;
     tour17May: Schema.Attribute.Boolean;
     travelDocumentOther: Schema.Attribute.String;
