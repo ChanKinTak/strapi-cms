@@ -80,6 +80,15 @@
     },
     "uniformSize": {
       "type": "string"
+    },
+    "emergencyPhoneNumber": {
+      "type": "string"
+    },
+    "emergencyContactRelationship": {
+      "type": "string"
+    },
+    "emergencyContactRelationshipOther": {
+      "type": "string"
     }
   }
 }

@@ -526,6 +526,9 @@ export interface ApiRegistrationRegistration
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     emergencyContact: Schema.Attribute.String;
+    emergencyContactRelationship: Schema.Attribute.String;
+    emergencyContactRelationshipOther: Schema.Attribute.String;
+    emergencyPhoneNumber: Schema.Attribute.String;
     englishFirstName: Schema.Attribute.String;
     englishLastName: Schema.Attribute.String;
     flightArrangement: Schema.Attribute.String;
