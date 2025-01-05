@@ -21,10 +21,10 @@
     "chineseName": {
       "type": "string"
     },
-    "englishLastName": {
+    "englishSurname": {
       "type": "string"
     },
-    "englishFirstName": {
+    "englishGivenName": {
       "type": "string"
     },
     "gender": {
@@ -63,19 +63,19 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "registration_confirmedRoommate"
     },
-    "activity17May": {
+    "tour16May": {
       "type": "string"
     },
-    "activity18May": {
+    "tour17May": {
       "type": "boolean"
     },
     "welcomeDinner": {
       "type": "boolean"
     },
-    "mealPreference": {
+    "dietaryPreference": {
       "type": "string"
     },
-    "otherMealPreference": {
+    "otherDietaryPreference": {
       "type": "string"
     },
     "uniformSize": {

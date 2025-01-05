@@ -514,8 +514,6 @@ export interface ApiRegistrationRegistration
     draftAndPublish: true;
   };
   attributes: {
-    activity17May: Schema.Attribute.String;
-    activity18May: Schema.Attribute.Boolean;
     birthDate: Schema.Attribute.Date;
     chineseName: Schema.Attribute.String;
     confirmedRoommate: Schema.Attribute.Relation<
@@ -525,12 +523,13 @@ export interface ApiRegistrationRegistration
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    dietaryPreference: Schema.Attribute.String;
     emergencyContact: Schema.Attribute.String;
     emergencyContactRelationship: Schema.Attribute.String;
     emergencyContactRelationshipOther: Schema.Attribute.String;
     emergencyPhoneNumber: Schema.Attribute.String;
-    englishFirstName: Schema.Attribute.String;
-    englishLastName: Schema.Attribute.String;
+    englishGivenName: Schema.Attribute.String;
+    englishSurname: Schema.Attribute.String;
     flightArrangement: Schema.Attribute.String;
     gender: Schema.Attribute.String;
     hotelAccommodation: Schema.Attribute.String;
@@ -540,8 +539,7 @@ export interface ApiRegistrationRegistration
       'api::registration.registration'
     > &
       Schema.Attribute.Private;
-    mealPreference: Schema.Attribute.String;
-    otherMealPreference: Schema.Attribute.String;
+    otherDietaryPreference: Schema.Attribute.String;
     passportExpiryDate: Schema.Attribute.Date;
     passportNumber: Schema.Attribute.String;
     phone: Schema.Attribute.String;
@@ -550,6 +548,8 @@ export interface ApiRegistrationRegistration
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+    tour16May: Schema.Attribute.String;
+    tour17May: Schema.Attribute.Boolean;
     travelDocumentOther: Schema.Attribute.String;
     travelDocumentType: Schema.Attribute.String;
     uniformSize: Schema.Attribute.String;
