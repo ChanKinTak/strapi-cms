@@ -432,31 +432,6 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
-  collectionName: 'faqs';
-  info: {
-    displayName: 'faq';
-    pluralName: 'faqs';
-    singularName: 'faq';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    question: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
 export interface ApiParticipationResponseParticipationResponse
   extends Struct.CollectionTypeSchema {
   collectionName: 'participation_responses';
@@ -589,6 +564,7 @@ export interface ApiRoommateRequestRoommateRequest
   extends Struct.CollectionTypeSchema {
   collectionName: 'roommate_requests';
   info: {
+    description: '';
     displayName: 'Roommate requests';
     pluralName: 'roommate-requests';
     singularName: 'roommate-request';
@@ -600,9 +576,6 @@ export interface ApiRoommateRequestRoommateRequest
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    enumeration: Schema.Attribute.Enumeration<
-      ['pending', 'accepted', 'rejected', 'cancelled']
-    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -610,13 +583,16 @@ export interface ApiRoommateRequestRoommateRequest
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    relation: Schema.Attribute.Relation<
+    receive_user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
     >;
     requesting_user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
+    >;
+    roommate_status: Schema.Attribute.Enumeration<
+      ['pending', 'accepted', 'rejected', 'cancelled']
     >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1167,7 +1143,6 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::activity.activity': ApiActivityActivity;
       'api::event.event': ApiEventEvent;
-      'api::faq.faq': ApiFaqFaq;
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
       'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
       'api::registration.registration': ApiRegistrationRegistration;

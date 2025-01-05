@@ -125,17 +125,17 @@
       "target": "api::roommate-request.roommate-request",
       "mappedBy": "requesting_user"
     },
-    "receivedRoommateRequests": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::roommate-request.roommate-request",
-      "mappedBy": "relation"
-    },
     "confitmRoommateRequest": {
       "type": "boolean"
     },
     "full_name": {
       "type": "string"
+    },
+    "receivedRoommateRequests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::roommate-request.roommate-request",
+      "mappedBy": "receive_user"
     }
   }
 }

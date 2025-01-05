@@ -4,7 +4,8 @@
   "info": {
     "singularName": "roommate-request",
     "pluralName": "roommate-requests",
-    "displayName": "Roommate requests"
+    "displayName": "Roommate requests",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -17,13 +18,13 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "sentRoommateRequests"
     },
-    "relation": {
+    "receive_user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
       "inversedBy": "receivedRoommateRequests"
     },
-    "enumeration": {
+    "roommate_status": {
       "type": "enumeration",
       "enum": [
         "pending",
