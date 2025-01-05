@@ -1,0 +1,36 @@
+{
+  "kind": "collectionType",
+  "collectionName": "roommate_requests",
+  "info": {
+    "singularName": "roommate-request",
+    "pluralName": "roommate-requests",
+    "displayName": "Roommate requests"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "requesting_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "sentRoommateRequests"
+    },
+    "relation": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "receivedRoommateRequests"
+    },
+    "enumeration": {
+      "type": "enumeration",
+      "enum": [
+        "pending",
+        "accepted",
+        "rejected",
+        "cancelled"
+      ]
+    }
+  }
+}

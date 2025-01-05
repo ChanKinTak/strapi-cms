@@ -403,74 +403,6 @@ export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiConferenceRegistrationConferenceRegistration
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'conference_registrations';
-  info: {
-    description: '';
-    displayName: 'Conference Registration';
-    pluralName: 'conference-registrations';
-    singularName: 'conference-registration';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    accommodationType: Schema.Attribute.Enumeration<
-      ['company', 'self', 'upgrade']
-    > &
-      Schema.Attribute.Required;
-    chineseName: Schema.Attribute.Blocks & Schema.Attribute.Required;
-    clothingSize: Schema.Attribute.Enumeration<
-      ['XS', 'S', 'M', 'L', 'XL', 'XXL']
-    > &
-      Schema.Attribute.Required;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    dateOfBirth: Schema.Attribute.Date & Schema.Attribute.Required;
-    email: Schema.Attribute.Email & Schema.Attribute.Required;
-    emergencyContactName: Schema.Attribute.String & Schema.Attribute.Required;
-    emergencyContactPhone: Schema.Attribute.String & Schema.Attribute.Required;
-    emergencyContactRelation: Schema.Attribute.String &
-      Schema.Attribute.Required;
-    englishLastName: Schema.Attribute.String & Schema.Attribute.Required;
-    flightArrangement: Schema.Attribute.Enumeration<['company', 'self']> &
-      Schema.Attribute.Required;
-    gender: Schema.Attribute.Enumeration<['male', 'female']> &
-      Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::conference-registration.conference-registration'
-    > &
-      Schema.Attribute.Private;
-    mealPreference: Schema.Attribute.Enumeration<
-      ['normal', 'vegetarian', 'other']
-    > &
-      Schema.Attribute.Required;
-    otherMealDetails: Schema.Attribute.String;
-    passportExpiryDate: Schema.Attribute.Date & Schema.Attribute.Required;
-    passportNumber: Schema.Attribute.String & Schema.Attribute.Required;
-    phoneNumber: Schema.Attribute.String & Schema.Attribute.Required;
-    preferredRoommateId: Schema.Attribute.String;
-    publishedAt: Schema.Attribute.DateTime;
-    roommate: Schema.Attribute.Relation<
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    selectedActivities: Schema.Attribute.JSON;
-    travelDocumentType: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-  };
-}
-
 export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   collectionName: 'events';
   info: {
@@ -563,6 +495,101 @@ export interface ApiRegistrationSettingRegistrationSetting
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     registration_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiRegistrationRegistration
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'registrations';
+  info: {
+    description: '';
+    displayName: 'Registrations';
+    pluralName: 'registrations';
+    singularName: 'registration';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    activity17May: Schema.Attribute.String;
+    activity18May: Schema.Attribute.Boolean;
+    birthDate: Schema.Attribute.Date;
+    chineseName: Schema.Attribute.String;
+    confirmedRoommate: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    emergencyContact: Schema.Attribute.String;
+    englishFirstName: Schema.Attribute.String;
+    englishLastName: Schema.Attribute.String;
+    flightArrangement: Schema.Attribute.String;
+    gender: Schema.Attribute.String;
+    hotelAccommodation: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::registration.registration'
+    > &
+      Schema.Attribute.Private;
+    mealPreference: Schema.Attribute.String;
+    otherMealPreference: Schema.Attribute.String;
+    passportExpiryDate: Schema.Attribute.Date;
+    passportNumber: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    relation: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    travelDocumentOther: Schema.Attribute.String;
+    travelDocumentType: Schema.Attribute.String;
+    uniformSize: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    welcomeDinner: Schema.Attribute.Boolean;
+  };
+}
+
+export interface ApiRoommateRequestRoommateRequest
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'roommate_requests';
+  info: {
+    displayName: 'Roommate requests';
+    pluralName: 'roommate-requests';
+    singularName: 'roommate-request';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    enumeration: Schema.Attribute.Enumeration<
+      ['pending', 'accepted', 'rejected', 'cancelled']
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::roommate-request.roommate-request'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    relation: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    requesting_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1029,10 +1056,11 @@ export interface PluginUsersPermissionsUser
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    confitmRoommateRequest: Schema.Attribute.Boolean;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    department: Schema.Attribute.String;
+    department: Schema.Attribute.Enumeration<['department01', 'department02']>;
     email: Schema.Attribute.Email &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
@@ -1041,7 +1069,7 @@ export interface PluginUsersPermissionsUser
     employeeId: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
-    group: Schema.Attribute.Enumeration<['Group1', 'Group2', 'Group3']>;
+    Group: Schema.Attribute.Enumeration<['Group01', 'Group02']>;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -1060,6 +1088,18 @@ export interface PluginUsersPermissionsUser
       }>;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    receivedRoommateRequests: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::roommate-request.roommate-request'
+    >;
+    registration: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::registration.registration'
+    >;
+    registration_confirmedRoommate: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::registration.registration'
+    >;
     registration_settings: Schema.Attribute.Relation<
       'manyToMany',
       'api::registration-setting.registration-setting'
@@ -1069,17 +1109,14 @@ export interface PluginUsersPermissionsUser
       'manyToOne',
       'plugin::users-permissions.role'
     >;
-    roommate_user: Schema.Attribute.Relation<
-      'oneToOne',
-      'api::conference-registration.conference-registration'
+    sentRoommateRequests: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::roommate-request.roommate-request'
     >;
+    team: Schema.Attribute.Enumeration<['team01', 'team02']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    user_relat: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::conference-registration.conference-registration'
-    >;
     username: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique &
@@ -1100,10 +1137,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::activity.activity': ApiActivityActivity;
-      'api::conference-registration.conference-registration': ApiConferenceRegistrationConferenceRegistration;
       'api::event.event': ApiEventEvent;
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
       'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
+      'api::registration.registration': ApiRegistrationRegistration;
+      'api::roommate-request.roommate-request': ApiRoommateRequestRoommateRequest;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

@@ -1,0 +1,85 @@
+{
+  "kind": "collectionType",
+  "collectionName": "registrations",
+  "info": {
+    "singularName": "registration",
+    "pluralName": "registrations",
+    "displayName": "Registrations",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "relation": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "registration"
+    },
+    "chineseName": {
+      "type": "string"
+    },
+    "englishLastName": {
+      "type": "string"
+    },
+    "englishFirstName": {
+      "type": "string"
+    },
+    "gender": {
+      "type": "string"
+    },
+    "birthDate": {
+      "type": "date"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "travelDocumentType": {
+      "type": "string"
+    },
+    "travelDocumentOther": {
+      "type": "string"
+    },
+    "passportNumber": {
+      "type": "string"
+    },
+    "passportExpiryDate": {
+      "type": "date"
+    },
+    "emergencyContact": {
+      "type": "string"
+    },
+    "flightArrangement": {
+      "type": "string"
+    },
+    "hotelAccommodation": {
+      "type": "string"
+    },
+    "confirmedRoommate": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "registration_confirmedRoommate"
+    },
+    "activity17May": {
+      "type": "string"
+    },
+    "activity18May": {
+      "type": "boolean"
+    },
+    "welcomeDinner": {
+      "type": "boolean"
+    },
+    "mealPreference": {
+      "type": "string"
+    },
+    "otherMealPreference": {
+      "type": "string"
+    },
+    "uniformSize": {
+      "type": "string"
+    }
+  }
+}

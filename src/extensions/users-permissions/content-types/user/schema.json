@@ -70,21 +70,6 @@
       "required": true,
       "unique": true
     },
-    "department": {
-      "type": "string"
-    },
-    "user_relat": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::conference-registration.conference-registration",
-      "mappedBy": "user"
-    },
-    "roommate_user": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::conference-registration.conference-registration",
-      "mappedBy": "roommate"
-    },
     "isFirstLogin": {
       "type": "boolean",
       "default": true
@@ -95,19 +80,59 @@
       "target": "api::participation-response.participation-response",
       "mappedBy": "user"
     },
-    "group": {
-      "type": "enumeration",
-      "enum": [
-        "Group1",
-        "Group2",
-        "Group3"
-      ]
-    },
     "registration_settings": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::registration-setting.registration-setting",
       "mappedBy": "authorizedEditors"
+    },
+    "department": {
+      "type": "enumeration",
+      "enum": [
+        "department01",
+        "department02"
+      ]
+    },
+    "team": {
+      "type": "enumeration",
+      "enum": [
+        "team01",
+        "team02"
+      ]
+    },
+    "Group": {
+      "type": "enumeration",
+      "enum": [
+        "Group01",
+        "Group02"
+      ]
+    },
+    "registration": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::registration.registration",
+      "mappedBy": "relation"
+    },
+    "registration_confirmedRoommate": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::registration.registration",
+      "mappedBy": "confirmedRoommate"
+    },
+    "sentRoommateRequests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::roommate-request.roommate-request",
+      "mappedBy": "requesting_user"
+    },
+    "receivedRoommateRequests": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::roommate-request.roommate-request",
+      "mappedBy": "relation"
+    },
+    "confitmRoommateRequest": {
+      "type": "boolean"
     }
   }
 }
