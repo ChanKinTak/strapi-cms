@@ -467,6 +467,7 @@ export interface ApiNotificationNotification
   extends Struct.CollectionTypeSchema {
   collectionName: 'notifications';
   info: {
+    description: '';
     displayName: 'Notifications';
     pluralName: 'notifications';
     singularName: 'notification';
@@ -485,7 +486,7 @@ export interface ApiNotificationNotification
       'api::notification.notification'
     > &
       Schema.Attribute.Private;
-    message: Schema.Attribute.String & Schema.Attribute.Required;
+    message: Schema.Attribute.Text & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     pushSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     read: Schema.Attribute.Boolean;
