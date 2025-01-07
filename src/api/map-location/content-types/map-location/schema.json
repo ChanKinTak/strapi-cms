@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "map_locations",
+  "info": {
+    "singularName": "map-location",
+    "pluralName": "map-locations",
+    "displayName": "Map locations"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "name": {
+      "type": "string"
+    },
+    "latitude": {
+      "type": "decimal"
+    },
+    "longitude": {
+      "type": "decimal"
+    },
+    "location_status": {
+      "type": "enumeration",
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
+    }
+  }
+}

@@ -432,6 +432,75 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiMapLocationMapLocation extends Struct.CollectionTypeSchema {
+  collectionName: 'map_locations';
+  info: {
+    displayName: 'Map locations';
+    pluralName: 'map-locations';
+    singularName: 'map-location';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    latitude: Schema.Attribute.Decimal;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::map-location.map-location'
+    > &
+      Schema.Attribute.Private;
+    location_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
+    longitude: Schema.Attribute.Decimal;
+    name: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiNotificationNotification
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'notifications';
+  info: {
+    displayName: 'Notifications';
+    pluralName: 'notifications';
+    singularName: 'notification';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    deviceTokens: Schema.Attribute.JSON;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification.notification'
+    > &
+      Schema.Attribute.Private;
+    message: Schema.Attribute.String & Schema.Attribute.Required;
+    publishedAt: Schema.Attribute.DateTime;
+    pushSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    read: Schema.Attribute.Boolean;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    type: Schema.Attribute.Enumeration<['info', 'warning', 'error', 'success']>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiParticipationResponseParticipationResponse
   extends Struct.CollectionTypeSchema {
   collectionName: 'participation_responses';
@@ -1084,6 +1153,10 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    notifications: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification.notification'
+    >;
     participation_response: Schema.Attribute.Relation<
       'oneToOne',
       'api::participation-response.participation-response'
@@ -1141,6 +1214,8 @@ declare module '@strapi/strapi' {
       'admin::user': AdminUser;
       'api::activity.activity': ApiActivityActivity;
       'api::event.event': ApiEventEvent;
+      'api::map-location.map-location': ApiMapLocationMapLocation;
+      'api::notification.notification': ApiNotificationNotification;
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
       'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
       'api::registration.registration': ApiRegistrationRegistration;
