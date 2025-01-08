@@ -1146,7 +1146,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
     full_name: Schema.Attribute.String;
-    Group: Schema.Attribute.Enumeration<['Group01', 'Group02']>;
+    Group: Schema.Attribute.Enumeration<['Group01', 'Group02', 'Group03']>;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<

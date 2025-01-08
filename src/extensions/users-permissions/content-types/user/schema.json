@@ -104,7 +104,8 @@
       "type": "enumeration",
       "enum": [
         "Group01",
-        "Group02"
+        "Group02",
+        "Group03"
       ]
     },
     "registration": {
