@@ -35,7 +35,7 @@
       "target": "plugin::users-permissions.user",
       "inversedBy": "notifications"
     },
-    "read": {
+    "isGlobal": {
       "type": "boolean"
     },
     "pushSent": {
@@ -44,6 +44,12 @@
     },
     "deviceTokens": {
       "type": "json"
+    },
+    "notification_reads": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::notification-read.notification-read",
+      "mappedBy": "notification"
     }
   }
 }

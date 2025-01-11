@@ -137,6 +137,12 @@
       "relation": "oneToMany",
       "target": "api::notification.notification",
       "mappedBy": "user"
+    },
+    "notification_reads_user": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::notification-read.notification-read",
+      "mappedBy": "user"
     }
   }
 }

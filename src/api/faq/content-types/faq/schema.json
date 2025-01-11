@@ -4,15 +4,32 @@
   "info": {
     "singularName": "faq",
     "pluralName": "faqs",
-    "displayName": "Faq"
+    "displayName": "Faq",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
   },
   "pluginOptions": {},
   "attributes": {
-    "test": {
+    "question_tc": {
       "type": "string"
+    },
+    "question_en": {
+      "type": "string"
+    },
+    "answer_tc": {
+      "type": "text"
+    },
+    "answer_en": {
+      "type": "string"
+    },
+    "faq_status": {
+      "type": "enumeration",
+      "enum": [
+        "Active",
+        "Inactive"
+      ]
     }
   }
 }

@@ -435,6 +435,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
 export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
   collectionName: 'faqs';
   info: {
+    description: '';
     displayName: 'Faq';
     pluralName: 'faqs';
     singularName: 'faq';
@@ -443,14 +444,18 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
+    answer_en: Schema.Attribute.String;
+    answer_tc: Schema.Attribute.Text;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    faq_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    test: Schema.Attribute.String;
+    question_en: Schema.Attribute.String;
+    question_tc: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -488,6 +493,44 @@ export interface ApiMapLocationMapLocation extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiNotificationReadNotificationRead
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'notification_reads';
+  info: {
+    description: '';
+    displayName: 'Notification Reads';
+    pluralName: 'notification-reads';
+    singularName: 'notification-read';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification-read.notification-read'
+    > &
+      Schema.Attribute.Private;
+    notification: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::notification.notification'
+    >;
+    publishedAt: Schema.Attribute.DateTime;
+    readAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiNotificationNotification
   extends Struct.CollectionTypeSchema {
   collectionName: 'notifications';
@@ -505,6 +548,7 @@ export interface ApiNotificationNotification
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     deviceTokens: Schema.Attribute.JSON;
+    isGlobal: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -512,9 +556,12 @@ export interface ApiNotificationNotification
     > &
       Schema.Attribute.Private;
     message: Schema.Attribute.Text & Schema.Attribute.Required;
+    notification_reads: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification-read.notification-read'
+    >;
     publishedAt: Schema.Attribute.DateTime;
     pushSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    read: Schema.Attribute.Boolean;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     type: Schema.Attribute.Enumeration<['info', 'warning', 'error', 'success']>;
     updatedAt: Schema.Attribute.DateTime;
@@ -1179,6 +1226,10 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    notification_reads_user: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::notification-read.notification-read'
+    >;
     notifications: Schema.Attribute.Relation<
       'oneToMany',
       'api::notification.notification'
@@ -1242,6 +1293,7 @@ declare module '@strapi/strapi' {
       'api::event.event': ApiEventEvent;
       'api::faq.faq': ApiFaqFaq;
       'api::map-location.map-location': ApiMapLocationMapLocation;
+      'api::notification-read.notification-read': ApiNotificationReadNotificationRead;
       'api::notification.notification': ApiNotificationNotification;
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
       'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
