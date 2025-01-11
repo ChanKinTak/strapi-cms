@@ -29,11 +29,11 @@
         "success"
       ]
     },
-    "user": {
+    "users": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToMany",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "notifications"
+      "mappedBy": "notification"
     },
     "isGlobal": {
       "type": "boolean"

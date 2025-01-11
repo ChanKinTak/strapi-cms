@@ -132,17 +132,17 @@
       "target": "api::roommate-request.roommate-request",
       "mappedBy": "receive_user"
     },
-    "notifications": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::notification.notification",
-      "mappedBy": "user"
-    },
     "notification_reads_user": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::notification-read.notification-read",
       "mappedBy": "user"
+    },
+    "notification": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::notification.notification",
+      "inversedBy": "users"
     }
   }
 }

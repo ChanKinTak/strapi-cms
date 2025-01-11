@@ -567,8 +567,8 @@ export interface ApiNotificationNotification
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
+    users: Schema.Attribute.Relation<
+      'oneToMany',
       'plugin::users-permissions.user'
     >;
   };
@@ -1226,13 +1226,13 @@ export interface PluginUsersPermissionsUser
       'plugin::users-permissions.user'
     > &
       Schema.Attribute.Private;
+    notification: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::notification.notification'
+    >;
     notification_reads_user: Schema.Attribute.Relation<
       'oneToMany',
       'api::notification-read.notification-read'
-    >;
-    notifications: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::notification.notification'
     >;
     participation_response: Schema.Attribute.Relation<
       'oneToOne',
