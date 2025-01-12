@@ -17,11 +17,11 @@
       "required": true
     },
     "latitude": {
-      "type": "decimal",
+      "type": "float",
       "required": true
     },
     "longitude": {
-      "type": "decimal",
+      "type": "float",
       "required": true
     },
     "isActive": {
