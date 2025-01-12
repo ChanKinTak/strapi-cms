@@ -385,18 +385,55 @@ export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     currentParticipants: Schema.Attribute.Integer;
-    date: Schema.Attribute.Date;
+    date: Schema.Attribute.Date & Schema.Attribute.Required;
     description: Schema.Attribute.Blocks;
-    isActive: Schema.Attribute.Boolean;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::activity.activity'
     > &
       Schema.Attribute.Private;
-    maxParticipants: Schema.Attribute.Integer;
-    name: Schema.Attribute.String;
+    maxParticipants: Schema.Attribute.Integer & Schema.Attribute.Required;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
+  collectionName: 'dinner_infos';
+  info: {
+    description: '';
+    displayName: 'Dinner Info';
+    pluralName: 'dinner-infos';
+    singularName: 'dinner-info';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content_en: Schema.Attribute.Blocks;
+    content_tc: Schema.Attribute.Blocks;
+    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isActive: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::dinner-info.dinner-info'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    type: Schema.Attribute.Enumeration<['GalaDinner', 'WelcomDinner']> &
+      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -407,7 +444,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
   collectionName: 'events';
   info: {
     description: '';
-    displayName: 'Event';
+    displayName: 'Calendar Event';
     pluralName: 'events';
     singularName: 'event';
   };
@@ -420,12 +457,14 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     date: Schema.Attribute.Date;
     description: Schema.Attribute.Blocks;
-    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    isActive: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -444,18 +483,20 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    answer_en: Schema.Attribute.String;
-    answer_tc: Schema.Attribute.Text;
+    answer_en: Schema.Attribute.String & Schema.Attribute.Required;
+    answer_tc: Schema.Attribute.Text & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    isActive: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'> &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    question_en: Schema.Attribute.String;
-    question_tc: Schema.Attribute.String;
+    question_en: Schema.Attribute.String & Schema.Attribute.Required;
+    question_tc: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -477,16 +518,18 @@ export interface ApiMapLocationMapLocation extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    latitude: Schema.Attribute.Decimal;
+    isActive: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
+    latitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::map-location.map-location'
     > &
       Schema.Attribute.Private;
-    longitude: Schema.Attribute.Decimal;
-    name: Schema.Attribute.String;
+    longitude: Schema.Attribute.Decimal & Schema.Attribute.Required;
+    name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -749,6 +792,7 @@ export interface ApiTravelInPragueTravelInPrague
   extends Struct.CollectionTypeSchema {
   collectionName: 'travel_in_pragues';
   info: {
+    description: '';
     displayName: 'Travel in Prague';
     pluralName: 'travel-in-pragues';
     singularName: 'travel-in-prague';
@@ -759,14 +803,13 @@ export interface ApiTravelInPragueTravelInPrague
   attributes: {
     content_en: Schema.Attribute.Blocks;
     content_tc: Schema.Attribute.Blocks;
-    cover: Schema.Attribute.Media<
-      'images' | 'files' | 'videos' | 'audios',
-      true
-    >;
+    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    isActive: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -774,8 +817,9 @@ export interface ApiTravelInPragueTravelInPrague
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String;
-    type: Schema.Attribute.Enumeration<['Crazy', 'Exploring', 'Taste']>;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    type: Schema.Attribute.Enumeration<['Crazy', 'Exploring', 'Taste']> &
+      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -786,6 +830,7 @@ export interface ApiUsefulInformationUsefulInformation
   extends Struct.CollectionTypeSchema {
   collectionName: 'useful_informations';
   info: {
+    description: '';
     displayName: 'Useful Information';
     pluralName: 'useful-informations';
     singularName: 'useful-information';
@@ -797,18 +842,20 @@ export interface ApiUsefulInformationUsefulInformation
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    isActive: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::useful-information.useful-information'
     > &
       Schema.Attribute.Private;
-    message_en: Schema.Attribute.Blocks;
-    message_tc: Schema.Attribute.Blocks;
+    message_en: Schema.Attribute.Blocks & Schema.Attribute.Required;
+    message_tc: Schema.Attribute.Blocks & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
-    title_en: Schema.Attribute.String;
-    title_tc: Schema.Attribute.String;
+    title_en: Schema.Attribute.String & Schema.Attribute.Required;
+    title_tc: Schema.Attribute.String & Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1361,6 +1408,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::activity.activity': ApiActivityActivity;
+      'api::dinner-info.dinner-info': ApiDinnerInfoDinnerInfo;
       'api::event.event': ApiEventEvent;
       'api::faq.faq': ApiFaqFaq;
       'api::map-location.map-location': ApiMapLocationMapLocation;

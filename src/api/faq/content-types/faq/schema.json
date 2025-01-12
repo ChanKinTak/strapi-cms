@@ -13,20 +13,25 @@
   "pluginOptions": {},
   "attributes": {
     "question_tc": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "question_en": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "answer_tc": {
-      "type": "text"
+      "type": "text",
+      "required": true
     },
     "answer_en": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "isActive": {
       "type": "boolean",
-      "default": true
+      "default": true,
+      "required": true
     }
   }
 }

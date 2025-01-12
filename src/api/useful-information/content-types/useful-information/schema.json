@@ -4,7 +4,8 @@
   "info": {
     "singularName": "useful-information",
     "pluralName": "useful-informations",
-    "displayName": "Useful Information"
+    "displayName": "Useful Information",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,20 +13,25 @@
   "pluginOptions": {},
   "attributes": {
     "title_tc": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "title_en": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "message_tc": {
-      "type": "blocks"
+      "type": "blocks",
+      "required": true
     },
     "message_en": {
-      "type": "blocks"
+      "type": "blocks",
+      "required": true
     },
     "isActive": {
       "type": "boolean",
-      "default": true
+      "default": true,
+      "required": true
     }
   }
 }

@@ -13,22 +13,26 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "description": {
       "type": "blocks"
     },
     "maxParticipants": {
-      "type": "integer"
+      "type": "integer",
+      "required": true
     },
     "currentParticipants": {
       "type": "integer"
     },
     "date": {
-      "type": "date"
+      "type": "date",
+      "required": true
     },
     "isActive": {
-      "type": "boolean"
+      "type": "boolean",
+      "required": true
     }
   }
 }

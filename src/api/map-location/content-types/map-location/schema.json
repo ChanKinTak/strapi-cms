@@ -13,17 +13,21 @@
   "pluginOptions": {},
   "attributes": {
     "name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "latitude": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true
     },
     "longitude": {
-      "type": "decimal"
+      "type": "decimal",
+      "required": true
     },
     "isActive": {
       "type": "boolean",
-      "default": true
+      "default": true,
+      "required": true
     }
   }
 }
