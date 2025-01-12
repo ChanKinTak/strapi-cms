@@ -420,7 +420,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     date: Schema.Attribute.Date;
     description: Schema.Attribute.Blocks;
-    event_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
       Schema.Attribute.Private;
@@ -449,7 +449,7 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    faq_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::faq.faq'> &
       Schema.Attribute.Private;
@@ -465,6 +465,7 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
 export interface ApiMapLocationMapLocation extends Struct.CollectionTypeSchema {
   collectionName: 'map_locations';
   info: {
+    description: '';
     displayName: 'Map locations';
     pluralName: 'map-locations';
     singularName: 'map-location';
@@ -476,6 +477,7 @@ export interface ApiMapLocationMapLocation extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     latitude: Schema.Attribute.Decimal;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -483,7 +485,6 @@ export interface ApiMapLocationMapLocation extends Struct.CollectionTypeSchema {
       'api::map-location.map-location'
     > &
       Schema.Attribute.Private;
-    location_status: Schema.Attribute.Enumeration<['Active', 'Inactive']>;
     longitude: Schema.Attribute.Decimal;
     name: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
@@ -738,6 +739,76 @@ export interface ApiRoommateRequestRoommateRequest
     roommate_status: Schema.Attribute.Enumeration<
       ['pending', 'accepted', 'rejected', 'cancelled']
     >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiTravelInPragueTravelInPrague
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'travel_in_pragues';
+  info: {
+    displayName: 'Travel in Prague';
+    pluralName: 'travel-in-pragues';
+    singularName: 'travel-in-prague';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content_en: Schema.Attribute.Blocks;
+    content_tc: Schema.Attribute.Blocks;
+    cover: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::travel-in-prague.travel-in-prague'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    type: Schema.Attribute.Enumeration<['Crazy', 'Exploring', 'Taste']>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiUsefulInformationUsefulInformation
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'useful_informations';
+  info: {
+    displayName: 'Useful Information';
+    pluralName: 'useful-informations';
+    singularName: 'useful-information';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::useful-information.useful-information'
+    > &
+      Schema.Attribute.Private;
+    message_en: Schema.Attribute.Blocks;
+    message_tc: Schema.Attribute.Blocks;
+    publishedAt: Schema.Attribute.DateTime;
+    title_en: Schema.Attribute.String;
+    title_tc: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1299,6 +1370,8 @@ declare module '@strapi/strapi' {
       'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
       'api::registration.registration': ApiRegistrationRegistration;
       'api::roommate-request.roommate-request': ApiRoommateRequestRoommateRequest;
+      'api::travel-in-prague.travel-in-prague': ApiTravelInPragueTravelInPrague;
+      'api::useful-information.useful-information': ApiUsefulInformationUsefulInformation;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;

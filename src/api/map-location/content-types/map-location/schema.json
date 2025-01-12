@@ -4,7 +4,8 @@
   "info": {
     "singularName": "map-location",
     "pluralName": "map-locations",
-    "displayName": "Map locations"
+    "displayName": "Map locations",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -20,12 +21,9 @@
     "longitude": {
       "type": "decimal"
     },
-    "location_status": {
-      "type": "enumeration",
-      "enum": [
-        "Active",
-        "Inactive"
-      ]
+    "isActive": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

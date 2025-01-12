@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "travel_in_pragues",
+  "info": {
+    "singularName": "travel-in-prague",
+    "pluralName": "travel-in-pragues",
+    "displayName": "Travel in Prague"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "cover": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": true
+    },
+    "title": {
+      "type": "string"
+    },
+    "content_tc": {
+      "type": "blocks"
+    },
+    "content_en": {
+      "type": "blocks"
+    },
+    "type": {
+      "type": "enumeration",
+      "enum": [
+        "Crazy",
+        "Exploring",
+        "Taste"
+      ]
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

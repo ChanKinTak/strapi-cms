@@ -1,0 +1,31 @@
+{
+  "kind": "collectionType",
+  "collectionName": "useful_informations",
+  "info": {
+    "singularName": "useful-information",
+    "pluralName": "useful-informations",
+    "displayName": "Useful Information"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title_tc": {
+      "type": "string"
+    },
+    "title_en": {
+      "type": "string"
+    },
+    "message_tc": {
+      "type": "blocks"
+    },
+    "message_en": {
+      "type": "blocks"
+    },
+    "isActive": {
+      "type": "boolean",
+      "default": true
+    }
+  }
+}

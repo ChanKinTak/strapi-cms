@@ -24,12 +24,9 @@
     "answer_en": {
       "type": "string"
     },
-    "faq_status": {
-      "type": "enumeration",
-      "enum": [
-        "Active",
-        "Inactive"
-      ]
+    "isActive": {
+      "type": "boolean",
+      "default": true
     }
   }
 }

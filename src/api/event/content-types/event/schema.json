@@ -21,12 +21,9 @@
     "description": {
       "type": "blocks"
     },
-    "event_status": {
-      "type": "enumeration",
-      "enum": [
-        "Active",
-        "Inactive"
-      ]
+    "isActive": {
+      "type": "boolean",
+      "default": true
     }
   }
 }
