@@ -4,16 +4,11 @@ export default {
 
         try{
             await strapi.plugins['email'].services.email.send({
-              to: 'tak@add-values.com',
-              from: 'tak@add-values.com', // e.g. single sender verification in SendGrid
-              cc: 'tak@add-values.com',
-              bcc: 'tak@add-values.com',
-              //replyTo: 'valid email address',
-              subject: 'The Strapi Email plugin worked successfully',
-              text: '${fieldName}', // Replace with a valid field ID
-              html: 'Hello world!', 
-                
-            })
+                to: 'tak@add-values.com',     // 必須有效的郵箱地址
+                from: env('SMTP_FROM'), // 必須是在 SendGrid 已驗證的域名
+                subject: 'Test Subject',         // 不能為空
+                text: 'Hello world'              // text 或 html 至少要有一個
+              });
         } catch(err) {
             console.log(err);
         }
