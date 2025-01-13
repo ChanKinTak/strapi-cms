@@ -483,7 +483,7 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    answer_en: Schema.Attribute.String & Schema.Attribute.Required;
+    answer_en: Schema.Attribute.Text & Schema.Attribute.Required;
     answer_tc: Schema.Attribute.Text & Schema.Attribute.Required;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
