@@ -72,9 +72,6 @@
     "otherDietaryPreference": {
       "type": "string"
     },
-    "uniformSize": {
-      "type": "string"
-    },
     "emergencyPhoneNumber": {
       "type": "string"
     },
@@ -93,6 +90,9 @@
     },
     "tnc": {
       "type": "boolean"
+    },
+    "countryCode": {
+      "type": "string"
     }
   }
 }

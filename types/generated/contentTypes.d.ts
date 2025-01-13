@@ -705,6 +705,7 @@ export interface ApiRegistrationRegistration
     chineseName: Schema.Attribute.String;
     confirmedRoommate: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<false>;
+    countryCode: Schema.Attribute.String;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -739,7 +740,6 @@ export interface ApiRegistrationRegistration
     tour17May: Schema.Attribute.Boolean;
     travelDocumentOther: Schema.Attribute.String;
     travelDocumentType: Schema.Attribute.String;
-    uniformSize: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
