@@ -7,7 +7,7 @@ export default {
                 to: 'tak@add-values.com',     // 必須有效的郵箱地址
                 from: process.env.SMTP_FROM, // 必須是在 SendGrid 已驗證的域名
                 subject: '成功登記布拉格海外會議2025 Successfully registered for 2025 Prague Convention',         // 不能為空
-                text: '已成功登記 Successfully registered ${result.email}${email}'              // text 或 html 至少要有一個
+                text: `已成功登記 Successfully registered ${result.email}`             // text 或 html 至少要有一個
               });
         } catch(err) {
             console.log(err);
