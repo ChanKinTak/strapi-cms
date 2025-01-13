@@ -1,17 +1,21 @@
 export default {
-    afterUpdate: async (event) => {
-      const { result } = event;
-      
-      try {
-        await strapi.plugins.email.services.email.send({
-          to: 'tak@add-values.com',
-          subject: '資料已更新',
-          html: `<h1>資料更新通知</h1>
-                 <p>ID ${result.id} 的資料已被更新</p>
-                 <p>更新時間: ${new Date().toLocaleString()}</p>`,
-        });
-      } catch (error) {
-        console.error('發送電子郵件失敗:', error);
-      }
-    },
-  };
+    async afterCreate(event) {    // Connected to "Save" button in admin panel
+        const { result } = event;
+
+        try{
+            await strapi.plugins['email'].services.email.send({
+              to: 'tak@add-values.com',
+              from: 'tak@add-values.com', // e.g. single sender verification in SendGrid
+              cc: 'tak@add-values.com',
+              bcc: 'tak@add-values.com',
+              //replyTo: 'valid email address',
+              subject: 'The Strapi Email plugin worked successfully',
+              text: '${fieldName}', // Replace with a valid field ID
+              html: 'Hello world!', 
+                
+            })
+        } catch(err) {
+            console.log(err);
+        }
+    }
+}
