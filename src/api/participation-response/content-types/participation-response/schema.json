@@ -20,6 +20,9 @@
     },
     "isParticipating": {
       "type": "boolean"
+    },
+    "reason": {
+      "type": "string"
     }
   }
 }

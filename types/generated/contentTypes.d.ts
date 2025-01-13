@@ -642,6 +642,7 @@ export interface ApiParticipationResponseParticipationResponse
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    reason: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
