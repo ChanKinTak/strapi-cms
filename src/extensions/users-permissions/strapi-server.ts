@@ -1,128 +1,65 @@
-// src/extensions/users-permissions/strapi-server.ts
+import crypto from "crypto";
+import _ from "lodash";
+import utils, { yup, validateYupSchema } from "@strapi/utils";
 
-interface ForgotPasswordRequestBody {
-  email: string;
-}
-
-interface ResetPasswordRequestBody {
-  code: string;
-  password: string;
-  confirmPassword: string;
-}
-
-interface EmailTemplate {
-  subject: string;
-  text: string;
-  html: string;
-}
+const forgotPasswordSchema = yup
+  .object({
+    email: yup.string().email().required(),
+  })
+  .noUnknown();
 
 module.exports = (plugin: any) => {
-  // 覆蓋原有的 forgotPassword controller
   plugin.controllers.auth.forgotPassword = async (ctx: any) => {
-    try {
-      const params = ctx.request.body as ForgotPasswordRequestBody;
+    const { email } = await validateYupSchema(forgotPasswordSchema)(
+      ctx.request.body
+    );
 
-      // 檢查參數
-      if (!params.email) {
-        throw new Error('請提供 email');
-      }
+    const pluginStore = strapi.store({
+      type: "plugin",
+      name: "users-permissions",
+    });
 
-      // 生成 4 位數驗證碼
-      const code = Math.floor(1000 + Math.random() * 9000).toString();
-      
-      // 格式化 email 內容
-      const emailTemplate: EmailTemplate = {
-        subject: '重設密碼驗證碼',
-        text: `您的重設密碼驗證碼是：${code}`,
-        html: `
-          <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h2 style="color: #333;">重設密碼驗證碼</h2>
-            <p style="font-size: 16px; color: #666;">
-              您的驗證碼是：<strong style="color: #000; font-size: 24px;">${code}</strong>
-            </p>
-            <p style="color: #666;">此驗證碼將在24小時後失效。</p>
-          </div>
-        `,
-      };
+    // Find the user
+    const user = await strapi
+      .query("plugin::users-permissions.user")
+      .findOne({ where: { email: email.toLowerCase() } });
 
-      // 更新用戶
-      const user = await strapi
-        .query('plugin::users-permissions.user')
-        .findOne({ where: { email: params.email } });
-
-      if (!user) {
-        throw new Error('此 email 不存在');
-      }
-
-      await strapi
-        .query('plugin::users-permissions.user')
-        .update({
-          where: { id: user.id },
-          data: {
-            resetPasswordToken: code,
-            resetPasswordTokenExpiry: Date.now() + 24 * 60 * 60 * 1000,
-          },
-        });
-
-      // 發送郵件
-      await strapi
-        .plugin('email')
-        .service('email')
-        .send({
-          to: params.email,
-          ...emailTemplate,
-        });
-
-      ctx.send({ ok: true });
-    } catch (error) {
-      ctx.throw(400, error instanceof Error ? error.message : '未知錯誤');
+    if (!user || user.blocked) {
+      return ctx.send({ ok: true });
     }
-  };
 
-  // 完整替換原有的resetPassword方法
-  plugin.controllers.auth.resetPassword = async (ctx: any) => {
-    try {
-      const { code, password, confirmPassword } = ctx.request.body as ResetPasswordRequestBody;
+    // 生成 6 位數驗證碼
+    const resetPasswordToken = crypto.randomInt(100000, 999999).toString();
 
-      if (!code || !password || !confirmPassword) {
-        throw new Error('請提供所有必要資訊');
-      }
+    // 自定義郵件內容
+    const emailToSend = {
+      to: user.email,
+      subject: '重設密碼驗證碼',
+      text: `您的驗證碼是：${resetPasswordToken}`,
+      html: `
+        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
+          <h2 style="color: #333;">重設密碼驗證碼</h2>
+          <p style="font-size: 16px; color: #666;">
+            您的驗證碼是：<strong style="color: #000; font-size: 24px;">${resetPasswordToken}</strong>
+          </p>
+          <p style="color: #666;">此驗證碼將在24小時後失效。</p>
+        </div>
+      `
+    };
 
-      if (password !== confirmPassword) {
-        throw new Error('密碼不匹配');
-      }
+    // 更新用戶的重設密碼 token
+    await strapi
+      .plugin("users-permissions")
+      .service("user")
+      .edit(user.id, { 
+        resetPasswordToken,
+        resetPasswordTokenExpiry: Date.now() + 24 * 60 * 60 * 1000
+      });
 
-      const user = await strapi
-        .query('plugin::users-permissions.user')
-        .findOne({ 
-          where: { 
-            resetPasswordToken: code,
-            resetPasswordTokenExpiry: {
-              $gt: Date.now(),
-            },
-          } 
-        });
+    // 發送郵件
+    await strapi.plugin("email").service("email").send(emailToSend);
 
-      if (!user) {
-        throw new Error('驗證碼無效或已過期');
-      }
-
-      // 更新密碼
-      await strapi
-        .query('plugin::users-permissions.user')
-        .update({
-          where: { id: user.id },
-          data: {
-            password: await strapi.service('admin::auth').hashPassword(password),
-            resetPasswordToken: null,
-            resetPasswordTokenExpiry: null,
-          },
-        });
-
-      ctx.send({ ok: true });
-    } catch (error) {
-      ctx.throw(400, error instanceof Error ? error.message : '未知錯誤');
-    }
+    ctx.send({ ok: true });
   };
 
   return plugin;
