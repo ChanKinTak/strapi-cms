@@ -26,6 +26,10 @@
     },
     "readAt": {
       "type": "datetime"
+    },
+    "notificationCode": {
+      "type": "string",
+      "required": true
     }
   }
 }

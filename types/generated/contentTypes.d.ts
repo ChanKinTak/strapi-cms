@@ -564,6 +564,7 @@ export interface ApiNotificationReadNotificationRead
       'manyToOne',
       'api::notification.notification'
     >;
+    notificationCode: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     readAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
