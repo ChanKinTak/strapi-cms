@@ -143,6 +143,10 @@
       "relation": "manyToOne",
       "target": "api::notification.notification",
       "inversedBy": "users"
+    },
+    "resetToken": {
+      "type": "uid",
+      "targetField": "resetPasswordToken"
     }
   }
 }

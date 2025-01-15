@@ -1378,6 +1378,7 @@ export interface PluginUsersPermissionsUser
       'api::registration-setting.registration-setting'
     >;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
+    resetToken: Schema.Attribute.UID<'resetPasswordToken'>;
     role: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.role'
