@@ -28,6 +28,9 @@
       "type": "text",
       "required": true
     },
+    "link": {
+      "type": "string"
+    },
     "isActive": {
       "type": "boolean",
       "default": true,
