@@ -25,6 +25,21 @@
 
 
 export default ({ env }) => ({
+  'users-permissions': {
+    config: {
+      jwt: {
+        expiresIn: '7d',
+      },
+      forgotPassword: {
+        emailTemplate: {
+          subject: '重設密碼驗證碼',
+          text: `您的驗證碼是：<%= resetPasswordToken %>`,
+          html: `您的驗證碼是：<%= resetPasswordToken %>`
+        },
+        tokenExpiration: 24 * 60 * 60 * 1000
+      }
+    }
+  },
   email: {
     config: {
       provider: 'sendgrid',
