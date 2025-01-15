@@ -1,0 +1,37 @@
+{
+    "kind": "collectionType",
+    "collectionName": "useful_informations",
+    "info": {
+        "singularName": "useful-information",
+        "pluralName": "useful-informations",
+        "displayName": "Useful Information",
+        "description": ""
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "title_tc": {
+            "type": "string",
+            "required": true
+        },
+        "title_en": {
+            "type": "string",
+            "required": true
+        },
+        "message_tc": {
+            "type": "blocks",
+            "required": true
+        },
+        "message_en": {
+            "type": "blocks",
+            "required": true
+        },
+        "isActive": {
+            "type": "boolean",
+            "default": true,
+            "required": true
+        }
+    }
+}

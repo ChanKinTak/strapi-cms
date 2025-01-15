@@ -1,0 +1,31 @@
+{
+    "kind": "collectionType",
+    "collectionName": "notification_reads",
+    "info": {
+        "singularName": "notification-read",
+        "pluralName": "notification-reads",
+        "displayName": "Notification Reads",
+        "description": ""
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "user": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "plugin::users-permissions.user",
+            "inversedBy": "notification_reads_user"
+        },
+        "notification": {
+            "type": "relation",
+            "relation": "manyToOne",
+            "target": "api::notification.notification",
+            "inversedBy": "notification_reads"
+        },
+        "readAt": {
+            "type": "datetime"
+        }
+    }
+}

@@ -1,0 +1,55 @@
+{
+    "kind": "collectionType",
+    "collectionName": "notifications",
+    "info": {
+        "singularName": "notification",
+        "pluralName": "notifications",
+        "displayName": "Notifications",
+        "description": ""
+    },
+    "options": {
+        "draftAndPublish": true
+    },
+    "pluginOptions": {},
+    "attributes": {
+        "title": {
+            "type": "string",
+            "required": true
+        },
+        "message": {
+            "type": "text",
+            "required": true
+        },
+        "type": {
+            "type": "enumeration",
+            "enum": [
+                "info",
+                "warning",
+                "error",
+                "success"
+            ]
+        },
+        "users": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "plugin::users-permissions.user",
+            "mappedBy": "notification"
+        },
+        "isGlobal": {
+            "type": "boolean"
+        },
+        "pushSent": {
+            "type": "boolean",
+            "default": false
+        },
+        "deviceTokens": {
+            "type": "json"
+        },
+        "notification_reads": {
+            "type": "relation",
+            "relation": "oneToMany",
+            "target": "api::notification-read.notification-read",
+            "mappedBy": "notification"
+        }
+    }
+}
