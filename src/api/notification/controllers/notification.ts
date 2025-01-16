@@ -7,28 +7,58 @@ import { factories } from '@strapi/strapi'
 //export default factories.createCoreController('api::notification.notification');
 
 
-
-
 export default factories.createCoreController('api::notification.notification', ({ strapi }) => ({
-  async createNotificationRead(ctx) {
-    const { user, notification } = ctx.request.body; // 从请求中获取 Notification 的主键 ID
+  async getUnreadCount(ctx) {
+    try {
+      const { user } = ctx.state;
+      
+      if (!user?.id) {
+        return ctx.unauthorized('Please login first');
+      }
 
-    // 确认 Notification 是否存在
-    const notificationinfo = await strapi.entityService.findOne('api::notification.notification', notification);
+      // 修改查詢條件，只獲取已發布的通知
+      const notifications = await strapi.db.query('api::notification.notification').findMany({
+        where: {
+          $and: [
+            {
+              publishedAt: { $notNull: true }  // 只查詢已發布的
+            },
+            {
+              $or: [
+                { isGlobal: true }
+              ]
+            }
+          ]
+        },
+        populate: {
+          notification_reads: {
+            where: {
+              user: user.id
+            }
+          }
+        }
+      });
 
-    if (!notificationinfo) {
-      return ctx.badRequest('Notification not found');
+      const unreadCount = notifications.filter(notification => {
+        const reads = notification.notification_reads || [];
+        return reads.length === 0;
+      }).length;
+
+      return {
+        data: {
+          unreadCount,
+          total: notifications.length,
+          details: notifications.map(n => ({
+            id: n.id,
+            isRead: (n.notification_reads?.length || 0) > 0,
+            publishedAt: n.publishedAt
+          }))
+        }
+      };
+
+    } catch (error) {
+      console.error('Detailed error:', error);
+      return ctx.badRequest('Failed to get unread count');
     }
-
-    // 创建 Notification Reads 记录
-    const notificationRead = await strapi.entityService.create('api::notification-read.notification-read', {
-      data: {
-        user: user,
-        notification: notification, // 直接使用主键 ID
-      },
-    });
-
-    ctx.body = { data: notificationRead };
-  },
+  }
 }));
-
