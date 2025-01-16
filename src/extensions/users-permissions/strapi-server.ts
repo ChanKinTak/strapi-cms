@@ -1,65 +1,48 @@
-import crypto from "crypto";
-import _ from "lodash";
-import utils, { yup, validateYupSchema } from "@strapi/utils";
+import { randomBytes } from 'crypto';
+import { factories } from '@strapi/strapi';
 
-const forgotPasswordSchema = yup
-  .object({
-    email: yup.string().email().required(),
-  })
-  .noUnknown();
-
-module.exports = (plugin: any) => {
+export default (plugin: any) => {
   plugin.controllers.auth.forgotPassword = async (ctx: any) => {
-    const { email } = await validateYupSchema(forgotPasswordSchema)(
-      ctx.request.body
-    );
+    const { email } = ctx.request.body;
 
-    const pluginStore = strapi.store({
-      type: "plugin",
-      name: "users-permissions",
-    });
-
-    // Find the user
-    const user = await strapi
-      .query("plugin::users-permissions.user")
-      .findOne({ where: { email: email.toLowerCase() } });
-
-    if (!user || user.blocked) {
-      return ctx.send({ ok: true });
+    if (!email) {
+      return ctx.badRequest('Email address is required');
     }
 
-    // 生成 6 位數驗證碼
-    const resetPasswordToken = crypto.randomInt(100000, 999999).toString();
+    // 查詢用戶
+    const user = await strapi.query('plugin::users-permissions.user').findOne({
+      where: { email },
+    });
 
-    // 自定義郵件內容
-    const emailToSend = {
-      to: user.email,
-      subject: '重設密碼驗證碼',
-      text: `您的驗證碼是：${resetPasswordToken}`,
-      html: `
-        <div style="max-width: 600px; margin: 0 auto; padding: 20px;">
-          <h2 style="color: #333;">重設密碼驗證碼</h2>
-          <p style="font-size: 16px; color: #666;">
-            您的驗證碼是：<strong style="color: #000; font-size: 24px;">${resetPasswordToken}</strong>
-          </p>
-          <p style="color: #666;">此驗證碼將在24小時後失效。</p>
-        </div>
-      `
-    };
+    if (!user) {
+      return ctx.badRequest('User not found');
+    }
 
-    // 更新用戶的重設密碼 token
-    await strapi
-      .plugin("users-permissions")
-      .service("user")
-      .edit(user.id, { 
+    // 自定義重設密碼 token 長度
+    const tokenLength = 32; // 你可以將長度調整為所需的值
+    const resetPasswordToken = randomBytes(tokenLength).toString('hex');
+
+    // 更新用戶數據庫中的 token 和有效期
+    await strapi.query('plugin::users-permissions.user').update({
+      where: { email },
+      data: {
         resetPasswordToken,
-        resetPasswordTokenExpiry: Date.now() + 24 * 60 * 60 * 1000
+        resetPasswordTokenExpiry: Date.now() + 3600000, // Token 有效期為 1 小時
+      },
+    });
+
+    // 發送 email 的邏輯
+    try {
+      await strapi.plugins['email'].services.email.send({
+        to: user.email,
+        subject: 'Reset your password',
+        text: `Your reset password token is: ${resetPasswordToken}`,
       });
-
-    // 發送郵件
-    await strapi.plugin("email").service("email").send(emailToSend);
-
-    ctx.send({ ok: true });
+      ctx.send({ message: 'Reset password instructions sent to your email' });
+    } catch (err) {
+      strapi.log.error('Failed to send reset password email', err);
+      ctx.internalServerError('Unable to send email. Please try again later.');
+    }
   };
 
   return plugin;
