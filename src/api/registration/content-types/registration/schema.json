@@ -33,6 +33,9 @@
     "birthDate": {
       "type": "date"
     },
+    "countryCode": {
+      "type": "string"
+    },
     "phone": {
       "type": "string"
     },
@@ -47,6 +50,9 @@
     },
     "passportExpiryDate": {
       "type": "date"
+    },
+    "emergencyCountryCode": {
+      "type": "string"
     },
     "emergencyContact": {
       "type": "string"
@@ -90,9 +96,7 @@
     },
     "tnc": {
       "type": "boolean"
-    },
-    "countryCode": {
-      "type": "string"
     }
+    
   }
 }

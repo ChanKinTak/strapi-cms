@@ -564,7 +564,6 @@ export interface ApiNotificationReadNotificationRead
       'manyToOne',
       'api::notification.notification'
     >;
-    notificationCode: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     readAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -716,6 +715,7 @@ export interface ApiRegistrationRegistration
     emergencyContact: Schema.Attribute.String;
     emergencyContactRelationship: Schema.Attribute.String;
     emergencyContactRelationshipOther: Schema.Attribute.String;
+    emergencyCountryCode: Schema.Attribute.String;
     emergencyPhoneNumber: Schema.Attribute.String;
     englishGivenName: Schema.Attribute.String;
     englishSurname: Schema.Attribute.String;
