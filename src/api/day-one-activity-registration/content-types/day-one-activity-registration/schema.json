@@ -1,0 +1,37 @@
+{
+  "kind": "collectionType",
+  "collectionName": "day_one_activity_registrations",
+  "info": {
+    "singularName": "day-one-activity-registration",
+    "pluralName": "day-one-activity-registrations",
+    "displayName": "Day one Activity Registration"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "day_one_activity_registrations_user"
+    },
+    "activity": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::activity.activity",
+      "inversedBy": "day_one_activity_registrations_activity"
+    },
+    "act_reg_status": {
+      "type": "enumeration",
+      "enum": [
+        "confirmed",
+        "cancelled"
+      ]
+    },
+    "registrationDate": {
+      "type": "datetime"
+    }
+  }
+}

@@ -14,12 +14,6 @@
     "noImplicitThis": true,
     "outDir": "dist",
     "rootDir": ".",
-    "baseUrl": ".", // 設置基本路徑
-    "paths": {
-      "@/*": ["src/*"], // 支持別名，如 @/utils 代表 src/utils
-      "@api/*": ["src/api/*"], // 用於簡化 API 模塊路徑
-      "@extensions/*": ["src/extensions/*"] // 用於簡化插件擴展路徑
-    }
   },
   "include": [
     // Include root files

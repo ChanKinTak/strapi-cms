@@ -144,9 +144,11 @@
       "target": "api::notification.notification",
       "inversedBy": "users"
     },
-    "resetToken": {
-      "type": "uid",
-      "targetField": "resetPasswordToken"
+    "day_one_activity_registrations_user": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::day-one-activity-registration.day-one-activity-registration",
+      "mappedBy": "user"
     }
   }
 }

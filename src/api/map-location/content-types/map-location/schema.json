@@ -17,17 +17,16 @@
       "required": true
     },
     "latitude": {
-      "type": "float",
+      "type": "string",
       "required": true
     },
     "longitude": {
-      "type": "float",
+      "type": "string",
       "required": true
     },
     "isActive": {
       "type": "boolean",
-      "default": true,
-      "required": true
+      "default": true
     }
   }
 }

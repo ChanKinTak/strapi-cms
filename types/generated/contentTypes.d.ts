@@ -386,6 +386,10 @@ export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     currentParticipants: Schema.Attribute.Integer;
     date: Schema.Attribute.Date & Schema.Attribute.Required;
+    day_one_activity_registrations_activity: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::day-one-activity-registration.day-one-activity-registration'
+    >;
     description: Schema.Attribute.Blocks;
     isActive: Schema.Attribute.Boolean & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -400,6 +404,41 @@ export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDayOneActivityRegistrationDayOneActivityRegistration
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'day_one_activity_registrations';
+  info: {
+    displayName: 'Day one Activity Registration';
+    pluralName: 'day-one-activity-registrations';
+    singularName: 'day-one-activity-registration';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    act_reg_status: Schema.Attribute.Enumeration<['confirmed', 'cancelled']>;
+    activity: Schema.Attribute.Relation<'manyToOne', 'api::activity.activity'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::day-one-activity-registration.day-one-activity-registration'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    registrationDate: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -519,17 +558,15 @@ export interface ApiMapLocationMapLocation extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isActive: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<true>;
-    latitude: Schema.Attribute.Float & Schema.Attribute.Required;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    latitude: Schema.Attribute.String & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::map-location.map-location'
     > &
       Schema.Attribute.Private;
-    longitude: Schema.Attribute.Float & Schema.Attribute.Required;
+    longitude: Schema.Attribute.String & Schema.Attribute.Required;
     name: Schema.Attribute.String & Schema.Attribute.Required;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
@@ -616,6 +653,36 @@ export interface ApiNotificationNotification
       'oneToMany',
       'plugin::users-permissions.user'
     >;
+  };
+}
+
+export interface ApiOtpOtp extends Struct.CollectionTypeSchema {
+  collectionName: 'otps';
+  info: {
+    displayName: 'OTP';
+    pluralName: 'otps';
+    singularName: 'otp';
+  };
+  options: {
+    draftAndPublish: false;
+  };
+  attributes: {
+    code: Schema.Attribute.String & Schema.Attribute.Required;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    email: Schema.Attribute.Email & Schema.Attribute.Required;
+    expiresAt: Schema.Attribute.DateTime & Schema.Attribute.Required;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::otp.otp'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    used: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
   };
 }
 
@@ -1329,6 +1396,10 @@ export interface PluginUsersPermissionsUser
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    day_one_activity_registrations_user: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::day-one-activity-registration.day-one-activity-registration'
+    >;
     department: Schema.Attribute.Enumeration<['department01', 'department02']>;
     email: Schema.Attribute.Email &
       Schema.Attribute.Required &
@@ -1379,7 +1450,6 @@ export interface PluginUsersPermissionsUser
       'api::registration-setting.registration-setting'
     >;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
-    resetToken: Schema.Attribute.UID<'resetPasswordToken'>;
     role: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.role'
@@ -1412,12 +1482,14 @@ declare module '@strapi/strapi' {
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
       'api::activity.activity': ApiActivityActivity;
+      'api::day-one-activity-registration.day-one-activity-registration': ApiDayOneActivityRegistrationDayOneActivityRegistration;
       'api::dinner-info.dinner-info': ApiDinnerInfoDinnerInfo;
       'api::event.event': ApiEventEvent;
       'api::faq.faq': ApiFaqFaq;
       'api::map-location.map-location': ApiMapLocationMapLocation;
       'api::notification-read.notification-read': ApiNotificationReadNotificationRead;
       'api::notification.notification': ApiNotificationNotification;
+      'api::otp.otp': ApiOtpOtp;
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
       'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
       'api::registration.registration': ApiRegistrationRegistration;

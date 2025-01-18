@@ -33,6 +33,12 @@
     "isActive": {
       "type": "boolean",
       "required": true
+    },
+    "day_one_activity_registrations_activity": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::day-one-activity-registration.day-one-activity-registration",
+      "mappedBy": "activity"
     }
   }
 }
