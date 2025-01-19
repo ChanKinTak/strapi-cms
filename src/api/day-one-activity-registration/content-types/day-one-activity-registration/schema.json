@@ -4,7 +4,8 @@
   "info": {
     "singularName": "day-one-activity-registration",
     "pluralName": "day-one-activity-registrations",
-    "displayName": "Day one Activity Registration"
+    "displayName": "Activity Registration",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true

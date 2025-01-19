@@ -411,7 +411,8 @@ export interface ApiDayOneActivityRegistrationDayOneActivityRegistration
   extends Struct.CollectionTypeSchema {
   collectionName: 'day_one_activity_registrations';
   info: {
-    displayName: 'Day one Activity Registration';
+    description: '';
+    displayName: 'Activity Registration';
     pluralName: 'day-one-activity-registrations';
     singularName: 'day-one-activity-registration';
   };
