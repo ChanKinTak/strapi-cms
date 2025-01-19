@@ -391,6 +391,10 @@ export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
       'api::day-one-activity-registration.day-one-activity-registration'
     >;
     description: Schema.Attribute.Blocks;
+    group_activity_registrations_id: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::group-activity-registration.group-activity-registration'
+    >;
     isActive: Schema.Attribute.Boolean & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -420,11 +424,11 @@ export interface ApiDayOneActivityRegistrationDayOneActivityRegistration
     draftAndPublish: true;
   };
   attributes: {
-    act_reg_status: Schema.Attribute.Enumeration<['confirmed', 'cancelled']>;
     activity: Schema.Attribute.Relation<'manyToOne', 'api::activity.activity'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    date: Schema.Attribute.DateTime;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -432,7 +436,6 @@ export interface ApiDayOneActivityRegistrationDayOneActivityRegistration
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    registrationDate: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -541,6 +544,40 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+  };
+}
+
+export interface ApiGroupActivityRegistrationGroupActivityRegistration
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'group_activity_registrations';
+  info: {
+    displayName: 'Group Activity Registration';
+    pluralName: 'group-activity-registrations';
+    singularName: 'group-activity-registration';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    activity: Schema.Attribute.Relation<'manyToOne', 'api::activity.activity'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.DateTime;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::group-activity-registration.group-activity-registration'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -1412,6 +1449,10 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.Unique;
     full_name: Schema.Attribute.String;
     Group: Schema.Attribute.Enumeration<['Group01', 'Group02', 'Group03']>;
+    group_activity_registrations_user: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::group-activity-registration.group-activity-registration'
+    >;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -1487,6 +1528,7 @@ declare module '@strapi/strapi' {
       'api::dinner-info.dinner-info': ApiDinnerInfoDinnerInfo;
       'api::event.event': ApiEventEvent;
       'api::faq.faq': ApiFaqFaq;
+      'api::group-activity-registration.group-activity-registration': ApiGroupActivityRegistrationGroupActivityRegistration;
       'api::map-location.map-location': ApiMapLocationMapLocation;
       'api::notification-read.notification-read': ApiNotificationReadNotificationRead;
       'api::notification.notification': ApiNotificationNotification;

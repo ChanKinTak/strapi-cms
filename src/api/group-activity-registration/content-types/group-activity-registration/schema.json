@@ -1,11 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "day_one_activity_registrations",
+  "collectionName": "group_activity_registrations",
   "info": {
-    "singularName": "day-one-activity-registration",
-    "pluralName": "day-one-activity-registrations",
-    "displayName": "Activity Registration",
-    "description": ""
+    "singularName": "group-activity-registration",
+    "pluralName": "group-activity-registrations",
+    "displayName": "Group Activity Registration"
   },
   "options": {
     "draftAndPublish": true
@@ -16,13 +15,13 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "day_one_activity_registrations_user"
+      "inversedBy": "group_activity_registrations_user"
     },
     "activity": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::activity.activity",
-      "inversedBy": "day_one_activity_registrations_activity"
+      "inversedBy": "group_activity_registrations_id"
     },
     "date": {
       "type": "datetime"
