@@ -60,6 +60,9 @@
     "flightArrangement": {
       "type": "string"
     },
+    "hotelArrangement": {
+      "type": "string"
+    },
     "hotelAccommodation": {
       "type": "string"
     },

@@ -789,6 +789,7 @@ export interface ApiRegistrationRegistration
     flightArrangement: Schema.Attribute.String;
     gender: Schema.Attribute.String;
     hotelAccommodation: Schema.Attribute.String;
+    hotelArrangement: Schema.Attribute.String;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
