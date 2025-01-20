@@ -39,12 +39,6 @@
       "relation": "oneToMany",
       "target": "api::day-one-activity-registration.day-one-activity-registration",
       "mappedBy": "activity"
-    },
-    "group_activity_registrations_id": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::group-activity-registration.group-activity-registration",
-      "mappedBy": "activity"
     }
   }
 }
