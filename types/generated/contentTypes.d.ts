@@ -725,6 +725,7 @@ export interface ApiRegistrationSettingRegistrationSetting
   extends Struct.CollectionTypeSchema {
   collectionName: 'registration_settings';
   info: {
+    description: '';
     displayName: 'Registration Settings';
     pluralName: 'registration-settings';
     singularName: 'registration-setting';
@@ -740,8 +741,8 @@ export interface ApiRegistrationSettingRegistrationSetting
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    editEndDate: Schema.Attribute.Date;
-    editStartDate: Schema.Attribute.Date & Schema.Attribute.Required;
+    editEndDate: Schema.Attribute.DateTime;
+    editStartDate: Schema.Attribute.DateTime & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

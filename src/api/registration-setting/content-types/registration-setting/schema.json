@@ -4,7 +4,8 @@
   "info": {
     "singularName": "registration-setting",
     "pluralName": "registration-settings",
-    "displayName": "Registration Settings"
+    "displayName": "Registration Settings",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,11 +13,11 @@
   "pluginOptions": {},
   "attributes": {
     "editStartDate": {
-      "type": "date",
+      "type": "datetime",
       "required": true
     },
     "editEndDate": {
-      "type": "date"
+      "type": "datetime"
     },
     "authorizedEditors": {
       "type": "relation",
