@@ -400,6 +400,7 @@ export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     maxParticipants: Schema.Attribute.Integer & Schema.Attribute.Required;
     name: Schema.Attribute.String & Schema.Attribute.Required;
+    name_en: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -653,36 +654,6 @@ export interface ApiNotificationNotification
       'oneToMany',
       'plugin::users-permissions.user'
     >;
-  };
-}
-
-export interface ApiOtpOtp extends Struct.CollectionTypeSchema {
-  collectionName: 'otps';
-  info: {
-    displayName: 'OTP';
-    pluralName: 'otps';
-    singularName: 'otp';
-  };
-  options: {
-    draftAndPublish: false;
-  };
-  attributes: {
-    code: Schema.Attribute.String & Schema.Attribute.Required;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    email: Schema.Attribute.Email & Schema.Attribute.Required;
-    expiresAt: Schema.Attribute.DateTime & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::otp.otp'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    used: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<false>;
   };
 }
 
@@ -1491,7 +1462,6 @@ declare module '@strapi/strapi' {
       'api::map-location.map-location': ApiMapLocationMapLocation;
       'api::notification-read.notification-read': ApiNotificationReadNotificationRead;
       'api::notification.notification': ApiNotificationNotification;
-      'api::otp.otp': ApiOtpOtp;
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
       'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
       'api::registration.registration': ApiRegistrationRegistration;

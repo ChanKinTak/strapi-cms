@@ -16,6 +16,9 @@
       "type": "string",
       "required": true
     },
+    "name_en": {
+      "type": "string"
+    },
     "description": {
       "type": "blocks"
     },
