@@ -86,20 +86,6 @@
       "target": "api::registration-setting.registration-setting",
       "mappedBy": "authorizedEditors"
     },
-    "department": {
-      "type": "enumeration",
-      "enum": [
-        "department01",
-        "department02"
-      ]
-    },
-    "team": {
-      "type": "enumeration",
-      "enum": [
-        "team01",
-        "team02"
-      ]
-    },
     "Group": {
       "type": "enumeration",
       "enum": [

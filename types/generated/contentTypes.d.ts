@@ -1373,7 +1373,6 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::day-one-activity-registration.day-one-activity-registration'
     >;
-    department: Schema.Attribute.Enumeration<['department01', 'department02']>;
     email: Schema.Attribute.Email &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
@@ -1431,7 +1430,6 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::roommate-request.roommate-request'
     >;
-    team: Schema.Attribute.Enumeration<['team01', 'team02']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
