@@ -1430,6 +1430,7 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::roommate-request.roommate-request'
     >;
+    team: Schema.Attribute.Enumeration<['team01', 'team02']>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
