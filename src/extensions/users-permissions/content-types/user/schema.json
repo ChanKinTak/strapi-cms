@@ -135,14 +135,6 @@
       "relation": "oneToMany",
       "target": "api::day-one-activity-registration.day-one-activity-registration",
       "mappedBy": "user"
-    },
-    "team": {
-      "type": "enumeration",
-      "enum": [
-        "team01",
-        "team02"
-      ],
-      "default": "team01"
     }
   }
 }
