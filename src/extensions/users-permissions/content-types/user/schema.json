@@ -141,7 +141,8 @@
       "enum": [
         "team01",
         "team02"
-      ]
+      ],
+      "default": "team01"
     }
   }
 }
