@@ -143,6 +143,17 @@
         "team02"
       ],
       "default": "team01"
+    },
+    "hotel_arrangement": {
+      "type": "enumeration",
+      "enum": [
+        " ⁠Hilton Prague",
+        "Prague Marriott Hotel",
+        "Hilton Prague Old Town"
+      ]
+    },
+    "roomNumber": {
+      "type": "string"
     }
   }
 }

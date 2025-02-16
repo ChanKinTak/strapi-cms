@@ -1,11 +1,4 @@
 export default ({ env }) => ({
-  'users-permissions': {
-    config: {
-      jwt: {
-        expiresIn: '7d',
-      }
-    }
-  },
   email: {
     config: {
       provider: 'sendgrid',
@@ -16,8 +9,7 @@ export default ({ env }) => ({
         defaultFrom: env('SMTP_FROM'),
         defaultReplyTo: env('SMTP_TO'),
       },
-    },
-    
+    }
   }
 });
 
