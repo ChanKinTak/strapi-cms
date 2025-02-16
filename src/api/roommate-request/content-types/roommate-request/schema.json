@@ -38,6 +38,12 @@
     },
     "receive_name": {
       "type": "string"
+    },
+    "requesting_email": {
+      "type": "email"
+    },
+    "receive_email": {
+      "type": "email"
     }
   }
 }

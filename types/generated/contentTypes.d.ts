@@ -812,11 +812,13 @@ export interface ApiRoommateRequestRoommateRequest
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    receive_email: Schema.Attribute.Email;
     receive_name: Schema.Attribute.String;
     receive_user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    requesting_email: Schema.Attribute.Email;
     requesting_name: Schema.Attribute.String;
     requesting_user: Schema.Attribute.Relation<
       'manyToOne',
