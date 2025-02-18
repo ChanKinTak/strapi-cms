@@ -1,4 +1,9 @@
 module.exports = ({env}) => ({
+  i18n: {
+    enabled: true,
+    defaultLocale: 'en',
+    locales: ['en', 'zh-Hans', 'zh-Hant'],
+  },
     upload: {
       config: {
         provider: "strapi-provider-upload-do", 
