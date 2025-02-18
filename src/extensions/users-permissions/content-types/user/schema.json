@@ -154,6 +154,12 @@
     },
     "roomNumber": {
       "type": "string"
+    },
+    "registrations_test": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::registrations-test.registrations-test",
+      "mappedBy": "relation"
     }
   }
 }

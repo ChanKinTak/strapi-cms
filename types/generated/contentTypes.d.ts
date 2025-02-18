@@ -369,6 +369,40 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiActivityRegistrationTestActivityRegistrationTest
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'activity_registration_tests';
+  info: {
+    displayName: 'Activity Registration Test';
+    pluralName: 'activity-registration-tests';
+    singularName: 'activity-registration-test';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    activity: Schema.Attribute.Relation<'manyToOne', 'api::activity.activity'>;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.DateTime;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::activity-registration-test.activity-registration-test'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
   collectionName: 'activities';
   info: {
@@ -766,6 +800,66 @@ export interface ApiRegistrationRegistration
     localizations: Schema.Attribute.Relation<
       'oneToMany',
       'api::registration.registration'
+    > &
+      Schema.Attribute.Private;
+    otherDietaryPreference: Schema.Attribute.String;
+    passportExpiryDate: Schema.Attribute.Date;
+    passportNumber: Schema.Attribute.String;
+    phone: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    relation: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+    tnc: Schema.Attribute.Boolean;
+    tour16May: Schema.Attribute.String;
+    tour17May: Schema.Attribute.Boolean;
+    travelDocumentOther: Schema.Attribute.String;
+    travelDocumentType: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    welcomeDinner: Schema.Attribute.Boolean;
+  };
+}
+
+export interface ApiRegistrationsTestRegistrationsTest
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'registrations_tests';
+  info: {
+    displayName: 'Registrations-test';
+    pluralName: 'registrations-tests';
+    singularName: 'registrations-test';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    birthDate: Schema.Attribute.Date;
+    chineseName: Schema.Attribute.String;
+    confirmedRoommate: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
+    countryCode: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    dietaryPreference: Schema.Attribute.String;
+    email: Schema.Attribute.Email;
+    emergencyContact: Schema.Attribute.String;
+    emergencyContactRelationship: Schema.Attribute.String;
+    emergencyContactRelationshipOther: Schema.Attribute.String;
+    emergencyCountryCode: Schema.Attribute.String;
+    emergencyPhoneNumber: Schema.Attribute.String;
+    englishGivenName: Schema.Attribute.String;
+    englishSurname: Schema.Attribute.String;
+    flightArrangement: Schema.Attribute.String;
+    gender: Schema.Attribute.String;
+    hotelAccommodation: Schema.Attribute.String;
+    hotelArrangement: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::registrations-test.registrations-test'
     > &
       Schema.Attribute.Private;
     otherDietaryPreference: Schema.Attribute.String;
@@ -1430,6 +1524,10 @@ export interface PluginUsersPermissionsUser
       'manyToMany',
       'api::registration-setting.registration-setting'
     >;
+    registrations_test: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::registrations-test.registrations-test'
+    >;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
     role: Schema.Attribute.Relation<
       'manyToOne',
@@ -1464,6 +1562,7 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::activity-registration-test.activity-registration-test': ApiActivityRegistrationTestActivityRegistrationTest;
       'api::activity.activity': ApiActivityActivity;
       'api::day-one-activity-registration.day-one-activity-registration': ApiDayOneActivityRegistrationDayOneActivityRegistration;
       'api::dinner-info.dinner-info': ApiDinnerInfoDinnerInfo;
@@ -1475,6 +1574,7 @@ declare module '@strapi/strapi' {
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
       'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
       'api::registration.registration': ApiRegistrationRegistration;
+      'api::registrations-test.registrations-test': ApiRegistrationsTestRegistrationsTest;
       'api::roommate-request.roommate-request': ApiRoommateRequestRoommateRequest;
       'api::travel-in-prague.travel-in-prague': ApiTravelInPragueTravelInPrague;
       'api::useful-information.useful-information': ApiUsefulInformationUsefulInformation;
