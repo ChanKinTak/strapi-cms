@@ -1480,11 +1480,7 @@ export interface PluginUsersPermissionsUser
     full_name: Schema.Attribute.String;
     Group: Schema.Attribute.Enumeration<['Group01', 'Group02', 'Group03']>;
     hotel_arrangement: Schema.Attribute.Enumeration<
-      [
-        ' \u2060Hilton Prague',
-        'Prague Marriott Hotel',
-        'Hilton Prague Old Town',
-      ]
+      ['\u2060Hilton Prague', 'Prague Marriott Hotel', 'Hilton Prague Old Town']
     >;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
