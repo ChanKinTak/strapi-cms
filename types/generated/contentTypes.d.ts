@@ -893,7 +893,7 @@ export interface ApiRoommateRequestRoommateRequest
     singularName: 'roommate-request';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
@@ -906,12 +906,14 @@ export interface ApiRoommateRequestRoommateRequest
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
+    receive_agent_code: Schema.Attribute.String;
     receive_email: Schema.Attribute.Email;
     receive_name: Schema.Attribute.String;
     receive_user: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.user'
     >;
+    requesting_agent_code: Schema.Attribute.String;
     requesting_email: Schema.Attribute.Email;
     requesting_name: Schema.Attribute.String;
     requesting_user: Schema.Attribute.Relation<

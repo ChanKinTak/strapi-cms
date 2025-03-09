@@ -8,7 +8,7 @@
     "description": ""
   },
   "options": {
-    "draftAndPublish": true
+    "draftAndPublish": false
   },
   "pluginOptions": {},
   "attributes": {
@@ -44,6 +44,12 @@
     },
     "receive_email": {
       "type": "email"
+    },
+    "requesting_agent_code": {
+      "type": "string"
+    },
+    "receive_agent_code": {
+      "type": "string"
     }
   }
 }
