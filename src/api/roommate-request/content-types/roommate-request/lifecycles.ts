@@ -1,9 +1,9 @@
 export default {
     async afterCreate(event) {    // Connected to "Save" button in admin panel
         const { result } = event;
-        if (result.publishedAt === null) {
+       /* if (result.publishedAt === null) {
             return;
-        }
+        }*/
         //console.log('afterCreate triggered for:', result.id);
         try{
             if(result.roommate_status === 'pending'){
