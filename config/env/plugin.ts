@@ -14,15 +14,5 @@ module.exports = ({env}) => ({
           space: env('DO_SPACE_BUCKET'),
         }
       },
-    }, 
-    'users-permissions': {
-      config: {
-        jwt: {
-          expiresIn: '7d',
-        },
-        resetPassword: {
-          resetTokenLength: 10, // 這裡修改驗證碼長度，例如從默認的 6 位改為 10 位
-        },
-      },
-    },
+    }
   })
