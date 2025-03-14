@@ -1,0 +1,25 @@
+{
+  "kind": "collectionType",
+  "collectionName": "roommate_settings",
+  "info": {
+    "singularName": "roommate-setting",
+    "pluralName": "roommate-settings",
+    "displayName": "Roommate Settings"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "endDate": {
+      "type": "datetime"
+    },
+    "roommate_status": {
+      "type": "enumeration",
+      "enum": [
+        "active",
+        "inactive"
+      ]
+    }
+  }
+}

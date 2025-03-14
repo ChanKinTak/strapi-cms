@@ -929,6 +929,36 @@ export interface ApiRoommateRequestRoommateRequest
   };
 }
 
+export interface ApiRoommateSettingRoommateSetting
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'roommate_settings';
+  info: {
+    displayName: 'Roommate Settings';
+    pluralName: 'roommate-settings';
+    singularName: 'roommate-setting';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    endDate: Schema.Attribute.DateTime;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::roommate-setting.roommate-setting'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    roommate_status: Schema.Attribute.Enumeration<['active', 'inactive']>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiTravelInPragueTravelInPrague
   extends Struct.CollectionTypeSchema {
   collectionName: 'travel_in_pragues';
@@ -1482,7 +1512,7 @@ export interface PluginUsersPermissionsUser
     full_name: Schema.Attribute.String;
     Group: Schema.Attribute.Enumeration<['Group01', 'Group02', 'Group03']>;
     hotel_arrangement: Schema.Attribute.Enumeration<
-      ['\u2060Hilton Prague', 'Prague Marriott Hotel', 'Hilton Prague Old Town']
+      ['Prague Marriott Hotel', 'Hilton Prague Old Town', '\u2060Hilton Prague']
     >;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
@@ -1536,7 +1566,24 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::roommate-request.roommate-request'
     >;
-    team: Schema.Attribute.Enumeration<['team01', 'team02']> &
+    team: Schema.Attribute.Enumeration<
+      [
+        'team01',
+        'team02',
+        'zone1',
+        'zone2',
+        'zone3',
+        'zone4',
+        'zone5',
+        'zone6',
+        'zone7',
+        'zone8',
+        'zone9',
+        'zone10',
+        'zone11',
+        'zone12',
+      ]
+    > &
       Schema.Attribute.DefaultTo<'team01'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1574,6 +1621,7 @@ declare module '@strapi/strapi' {
       'api::registration.registration': ApiRegistrationRegistration;
       'api::registrations-test.registrations-test': ApiRegistrationsTestRegistrationsTest;
       'api::roommate-request.roommate-request': ApiRoommateRequestRoommateRequest;
+      'api::roommate-setting.roommate-setting': ApiRoommateSettingRoommateSetting;
       'api::travel-in-prague.travel-in-prague': ApiTravelInPragueTravelInPrague;
       'api::useful-information.useful-information': ApiUsefulInformationUsefulInformation;
       'plugin::content-releases.release': PluginContentReleasesRelease;
