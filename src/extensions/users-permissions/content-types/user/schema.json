@@ -161,7 +161,8 @@
       "enum": [
         "⁠Hilton Prague",
         "Prague Marriott Hotel",
-        "Hilton Prague Old Town"
+        "Hilton Prague Old Town",
+        "TBC"
       ]
     },
     "roomNumber": {
