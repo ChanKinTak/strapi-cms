@@ -159,9 +159,9 @@
     "hotel_arrangement": {
       "type": "enumeration",
       "enum": [
+        "⁠Hilton Prague",
         "Prague Marriott Hotel",
-        "Hilton Prague Old Town",
-        "⁠Hilton Prague"
+        "Hilton Prague Old Town"
       ]
     },
     "roomNumber": {

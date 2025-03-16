@@ -99,6 +99,10 @@
     },
     "tnc": {
       "type": "boolean"
+    },
+    "top_qualifier_dinner": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

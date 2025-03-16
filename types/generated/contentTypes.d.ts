@@ -812,6 +812,8 @@ export interface ApiRegistrationRegistration
       'plugin::users-permissions.user'
     >;
     tnc: Schema.Attribute.Boolean;
+    top_qualifier_dinner: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     tour16May: Schema.Attribute.String;
     tour17May: Schema.Attribute.Boolean;
     travelDocumentOther: Schema.Attribute.String;
@@ -1512,7 +1514,7 @@ export interface PluginUsersPermissionsUser
     full_name: Schema.Attribute.String;
     Group: Schema.Attribute.Enumeration<['Group01', 'Group02', 'Group03']>;
     hotel_arrangement: Schema.Attribute.Enumeration<
-      ['Prague Marriott Hotel', 'Hilton Prague Old Town', '\u2060Hilton Prague']
+      ['\u2060Hilton Prague', 'Prague Marriott Hotel', 'Hilton Prague Old Town']
     >;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
