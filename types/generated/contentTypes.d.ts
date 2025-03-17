@@ -1515,9 +1515,9 @@ export interface PluginUsersPermissionsUser
     Group: Schema.Attribute.Enumeration<['Group01', 'Group02', 'Group03']>;
     hotel_arrangement: Schema.Attribute.Enumeration<
       [
-        '\u2060Hilton Prague',
         'Prague Marriott Hotel',
         'Hilton Prague Old Town',
+        'Hilton Prague',
         'TBC',
       ]
     >;
