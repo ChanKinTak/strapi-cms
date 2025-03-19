@@ -895,7 +895,7 @@ export interface ApiRoommateRequestRoommateRequest
     singularName: 'roommate-request';
   };
   options: {
-    draftAndPublish: false;
+    draftAndPublish: true;
   };
   attributes: {
     createdAt: Schema.Attribute.DateTime;
