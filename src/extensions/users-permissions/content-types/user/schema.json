@@ -173,6 +173,10 @@
       "relation": "oneToOne",
       "target": "api::registrations-test.registrations-test",
       "mappedBy": "relation"
+    },
+    "hotelUpgradePaymentSettled": {
+      "type": "boolean",
+      "default": false
     }
   }
 }

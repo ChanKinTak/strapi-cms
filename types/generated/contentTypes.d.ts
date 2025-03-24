@@ -1521,6 +1521,8 @@ export interface PluginUsersPermissionsUser
         'TBC',
       ]
     >;
+    hotelUpgradePaymentSettled: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
