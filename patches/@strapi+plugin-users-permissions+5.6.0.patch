@@ -1,5 +1,5 @@
 diff --git a/node_modules/@strapi/plugin-users-permissions/server/controllers/auth.js b/node_modules/@strapi/plugin-users-permissions/server/controllers/auth.js
-index 515b4c5..a17a6ae 100644
+index 515b4c5..ce5efb9 100644
 --- a/node_modules/@strapi/plugin-users-permissions/server/controllers/auth.js
 +++ b/node_modules/@strapi/plugin-users-permissions/server/controllers/auth.js
 @@ -251,7 +251,16 @@ module.exports = ({ strapi }) => ({
@@ -15,7 +15,7 @@ index 515b4c5..a17a6ae 100644
 +      }
 +      return token;
 +    };
-+    const resetPasswordToken = generateNumericToken(12);
++    const resetPasswordToken = generateNumericToken(8);
 +    //const resetPasswordToken = crypto.randomBytes(64).toString('hex');
  
      const resetPasswordSettings = _.get(emailSettings, 'reset_password.options', {});
