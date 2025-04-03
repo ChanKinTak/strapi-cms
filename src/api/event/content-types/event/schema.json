@@ -26,6 +26,16 @@
       "type": "boolean",
       "default": true,
       "required": true
+    },
+    "isGlobal": {
+      "type": "boolean",
+      "required": true
+    },
+    "users_permissions_users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "calendar_event"
     }
   }
 }

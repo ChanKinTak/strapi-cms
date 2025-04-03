@@ -1,0 +1,49 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dinner_details",
+  "info": {
+    "singularName": "dinner-detail",
+    "pluralName": "dinner-details",
+    "displayName": "dinner detail"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title_en": {
+      "type": "string"
+    },
+    "title_tc": {
+      "type": "string"
+    },
+    "content_en": {
+      "type": "text"
+    },
+    "content_tc": {
+      "type": "text"
+    },
+    "image": {
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "order": {
+      "type": "integer"
+    },
+    "dinner_status": {
+      "type": "boolean"
+    },
+    "dinner_info": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::dinner-info.dinner-info",
+      "inversedBy": "dinner_details"
+    }
+  }
+}

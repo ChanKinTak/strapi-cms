@@ -1,0 +1,53 @@
+{
+  "kind": "collectionType",
+  "collectionName": "flight_details",
+  "info": {
+    "singularName": "flight-detail",
+    "pluralName": "flight-details",
+    "displayName": "Flight Detail",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "FlightNumber": {
+      "type": "string"
+    },
+    "Airline": {
+      "type": "string"
+    },
+    "DepartureLocation": {
+      "type": "string"
+    },
+    "DepartureCode": {
+      "type": "string"
+    },
+    "ArrivalLocation": {
+      "type": "string"
+    },
+    "ArrivalCode": {
+      "type": "string"
+    },
+    "LocalDepartureTime": {
+      "type": "string"
+    },
+    "LocalArrivalTime": {
+      "type": "string"
+    },
+    "Remark": {
+      "type": "string"
+    },
+    "Flight_status": {
+      "type": "boolean",
+      "default": true
+    },
+    "journey": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::journey.journey",
+      "inversedBy": "flight_details"
+    }
+  }
+}

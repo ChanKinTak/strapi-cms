@@ -369,40 +369,6 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiActivityRegistrationTestActivityRegistrationTest
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'activity_registration_tests';
-  info: {
-    displayName: 'Activity Registration Test';
-    pluralName: 'activity-registration-tests';
-    singularName: 'activity-registration-test';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    activity: Schema.Attribute.Relation<'manyToOne', 'api::activity.activity'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date: Schema.Attribute.DateTime;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::activity-registration-test.activity-registration-test'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    user: Schema.Attribute.Relation<
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
-  };
-}
-
 export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
   collectionName: 'activities';
   info: {
@@ -442,6 +408,44 @@ export interface ApiActivityActivity extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiAttendanceAttendance extends Struct.CollectionTypeSchema {
+  collectionName: 'attendances';
+  info: {
+    displayName: 'Attendance';
+    pluralName: 'attendances';
+    singularName: 'attendance';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    AttendanceStatus: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<true>;
+    CheckInTime: Schema.Attribute.DateTime;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    Event: Schema.Attribute.Relation<
+      'oneToOne',
+      'api::qr-code-event.qr-code-event'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::attendance.attendance'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    User: Schema.Attribute.Relation<
+      'oneToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiDayOneActivityRegistrationDayOneActivityRegistration
   extends Struct.CollectionTypeSchema {
   collectionName: 'day_one_activity_registrations';
@@ -477,6 +481,45 @@ export interface ApiDayOneActivityRegistrationDayOneActivityRegistration
   };
 }
 
+export interface ApiDinnerDetailDinnerDetail
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'dinner_details';
+  info: {
+    displayName: 'dinner detail';
+    pluralName: 'dinner-details';
+    singularName: 'dinner-detail';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content_en: Schema.Attribute.Text;
+    content_tc: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    dinner_info: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::dinner-info.dinner-info'
+    >;
+    dinner_status: Schema.Attribute.Boolean;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::dinner-detail.dinner-detail'
+    > &
+      Schema.Attribute.Private;
+    order: Schema.Attribute.Integer;
+    publishedAt: Schema.Attribute.DateTime;
+    title_en: Schema.Attribute.String;
+    title_tc: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
   collectionName: 'dinner_infos';
   info: {
@@ -489,15 +532,14 @@ export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
     draftAndPublish: true;
   };
   attributes: {
-    content_en: Schema.Attribute.Blocks;
-    content_tc: Schema.Attribute.Blocks;
     cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    isActive: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<true>;
+    dinner_details: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::dinner-detail.dinner-detail'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -505,9 +547,8 @@ export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    type: Schema.Attribute.Enumeration<['GalaDinner', 'WelcomDinner']> &
-      Schema.Attribute.Required;
+    title_en: Schema.Attribute.String & Schema.Attribute.Required;
+    title_tc: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -534,6 +575,7 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     isActive: Schema.Attribute.Boolean &
       Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<true>;
+    isGlobal: Schema.Attribute.Boolean & Schema.Attribute.Required;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
       Schema.Attribute.Private;
@@ -542,6 +584,10 @@ export interface ApiEventEvent extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    users_permissions_users: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -572,6 +618,78 @@ export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
     publishedAt: Schema.Attribute.DateTime;
     question_en: Schema.Attribute.String & Schema.Attribute.Required;
     question_tc: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiFlightDetailFlightDetail
+  extends Struct.CollectionTypeSchema {
+  collectionName: 'flight_details';
+  info: {
+    description: '';
+    displayName: 'Flight Detail';
+    pluralName: 'flight-details';
+    singularName: 'flight-detail';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    Airline: Schema.Attribute.String;
+    ArrivalCode: Schema.Attribute.String;
+    ArrivalLocation: Schema.Attribute.String;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    DepartureCode: Schema.Attribute.String;
+    DepartureLocation: Schema.Attribute.String;
+    Flight_status: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    FlightNumber: Schema.Attribute.String;
+    journey: Schema.Attribute.Relation<'manyToOne', 'api::journey.journey'>;
+    LocalArrivalTime: Schema.Attribute.String;
+    LocalDepartureTime: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::flight-detail.flight-detail'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    Remark: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiJourneyJourney extends Struct.CollectionTypeSchema {
+  collectionName: 'journeys';
+  info: {
+    displayName: 'Journey';
+    pluralName: 'journeys';
+    singularName: 'journey';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    flight_details: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::flight-detail.flight-detail'
+    >;
+    JourneyName: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::journey.journey'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -679,6 +797,7 @@ export interface ApiNotificationNotification
     >;
     publishedAt: Schema.Attribute.DateTime;
     pushSent: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    startDate: Schema.Attribute.DateTime;
     title: Schema.Attribute.String & Schema.Attribute.Required;
     type: Schema.Attribute.Enumeration<['info', 'warning', 'error', 'success']>;
     updatedAt: Schema.Attribute.DateTime;
@@ -723,6 +842,38 @@ export interface ApiParticipationResponseParticipationResponse
       'oneToOne',
       'plugin::users-permissions.user'
     >;
+  };
+}
+
+export interface ApiQrCodeEventQrCodeEvent extends Struct.CollectionTypeSchema {
+  collectionName: 'qr_code_events';
+  info: {
+    displayName: 'QR Code Event';
+    pluralName: 'qr-code-events';
+    singularName: 'qr-code-event';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    AllowedUsers: Schema.Attribute.Relation<
+      'manyToMany',
+      'plugin::users-permissions.user'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    EventName: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::qr-code-event.qr-code-event'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
   };
 }
 
@@ -825,66 +976,6 @@ export interface ApiRegistrationRegistration
   };
 }
 
-export interface ApiRegistrationsTestRegistrationsTest
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'registrations_tests';
-  info: {
-    displayName: 'Registrations-test';
-    pluralName: 'registrations-tests';
-    singularName: 'registrations-test';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    birthDate: Schema.Attribute.Date;
-    chineseName: Schema.Attribute.String;
-    confirmedRoommate: Schema.Attribute.Boolean &
-      Schema.Attribute.DefaultTo<false>;
-    countryCode: Schema.Attribute.String;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    dietaryPreference: Schema.Attribute.String;
-    email: Schema.Attribute.Email;
-    emergencyContact: Schema.Attribute.String;
-    emergencyContactRelationship: Schema.Attribute.String;
-    emergencyContactRelationshipOther: Schema.Attribute.String;
-    emergencyCountryCode: Schema.Attribute.String;
-    emergencyPhoneNumber: Schema.Attribute.String;
-    englishGivenName: Schema.Attribute.String;
-    englishSurname: Schema.Attribute.String;
-    flightArrangement: Schema.Attribute.String;
-    gender: Schema.Attribute.String;
-    hotelAccommodation: Schema.Attribute.String;
-    hotelArrangement: Schema.Attribute.String;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::registrations-test.registrations-test'
-    > &
-      Schema.Attribute.Private;
-    otherDietaryPreference: Schema.Attribute.String;
-    passportExpiryDate: Schema.Attribute.Date;
-    passportNumber: Schema.Attribute.String;
-    phone: Schema.Attribute.String;
-    publishedAt: Schema.Attribute.DateTime;
-    relation: Schema.Attribute.Relation<
-      'oneToOne',
-      'plugin::users-permissions.user'
-    >;
-    tnc: Schema.Attribute.Boolean;
-    tour16May: Schema.Attribute.String;
-    tour17May: Schema.Attribute.Boolean;
-    travelDocumentOther: Schema.Attribute.String;
-    travelDocumentType: Schema.Attribute.String;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    welcomeDinner: Schema.Attribute.Boolean;
-  };
-}
-
 export interface ApiRoommateRequestRoommateRequest
   extends Struct.CollectionTypeSchema {
   collectionName: 'roommate_requests';
@@ -955,44 +1046,6 @@ export interface ApiRoommateSettingRoommateSetting
       Schema.Attribute.Private;
     publishedAt: Schema.Attribute.DateTime;
     roommate_status: Schema.Attribute.Enumeration<['active', 'inactive']>;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-  };
-}
-
-export interface ApiTravelInPragueTravelInPrague
-  extends Struct.CollectionTypeSchema {
-  collectionName: 'travel_in_pragues';
-  info: {
-    description: '';
-    displayName: 'Travel in Prague';
-    pluralName: 'travel-in-pragues';
-    singularName: 'travel-in-prague';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    content_en: Schema.Attribute.Blocks;
-    content_tc: Schema.Attribute.Blocks;
-    cover: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    isActive: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<true>;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<
-      'oneToMany',
-      'api::travel-in-prague.travel-in-prague'
-    > &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    type: Schema.Attribute.Enumeration<['Crazy', 'Exploring', 'Taste']> &
-      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
@@ -1493,6 +1546,7 @@ export interface PluginUsersPermissionsUser
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    calendar_event: Schema.Attribute.Relation<'manyToOne', 'api::event.event'>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confitmRoommateRequest: Schema.Attribute.Boolean;
@@ -1549,6 +1603,10 @@ export interface PluginUsersPermissionsUser
       }>;
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
+    qr_code_events: Schema.Attribute.Relation<
+      'manyToMany',
+      'api::qr-code-event.qr-code-event'
+    >;
     receivedRoommateRequests: Schema.Attribute.Relation<
       'oneToMany',
       'api::roommate-request.roommate-request'
@@ -1561,10 +1619,6 @@ export interface PluginUsersPermissionsUser
       'manyToMany',
       'api::registration-setting.registration-setting'
     >;
-    registrations_test: Schema.Attribute.Relation<
-      'oneToOne',
-      'api::registrations-test.registrations-test'
-    >;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
     role: Schema.Attribute.Relation<
       'manyToOne',
@@ -1575,6 +1629,7 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::roommate-request.roommate-request'
     >;
+    staff: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     team: Schema.Attribute.Enumeration<
       [
         'team01',
@@ -1616,22 +1671,24 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
-      'api::activity-registration-test.activity-registration-test': ApiActivityRegistrationTestActivityRegistrationTest;
       'api::activity.activity': ApiActivityActivity;
+      'api::attendance.attendance': ApiAttendanceAttendance;
       'api::day-one-activity-registration.day-one-activity-registration': ApiDayOneActivityRegistrationDayOneActivityRegistration;
+      'api::dinner-detail.dinner-detail': ApiDinnerDetailDinnerDetail;
       'api::dinner-info.dinner-info': ApiDinnerInfoDinnerInfo;
       'api::event.event': ApiEventEvent;
       'api::faq.faq': ApiFaqFaq;
+      'api::flight-detail.flight-detail': ApiFlightDetailFlightDetail;
+      'api::journey.journey': ApiJourneyJourney;
       'api::map-location.map-location': ApiMapLocationMapLocation;
       'api::notification-read.notification-read': ApiNotificationReadNotificationRead;
       'api::notification.notification': ApiNotificationNotification;
       'api::participation-response.participation-response': ApiParticipationResponseParticipationResponse;
+      'api::qr-code-event.qr-code-event': ApiQrCodeEventQrCodeEvent;
       'api::registration-setting.registration-setting': ApiRegistrationSettingRegistrationSetting;
       'api::registration.registration': ApiRegistrationRegistration;
-      'api::registrations-test.registrations-test': ApiRegistrationsTestRegistrationsTest;
       'api::roommate-request.roommate-request': ApiRoommateRequestRoommateRequest;
       'api::roommate-setting.roommate-setting': ApiRoommateSettingRoommateSetting;
-      'api::travel-in-prague.travel-in-prague': ApiTravelInPragueTravelInPrague;
       'api::useful-information.useful-information': ApiUsefulInformationUsefulInformation;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;

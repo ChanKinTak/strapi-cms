@@ -23,28 +23,18 @@
         "audios"
       ]
     },
-    "title": {
+    "title_en": {
       "type": "string",
       "required": true
     },
-    "content_tc": {
-      "type": "blocks"
+    "title_tc": {
+      "type": "string"
     },
-    "content_en": {
-      "type": "blocks"
-    },
-    "type": {
-      "type": "enumeration",
-      "enum": [
-        "GalaDinner",
-        "WelcomDinner"
-      ],
-      "required": true
-    },
-    "isActive": {
-      "type": "boolean",
-      "default": true,
-      "required": true
+    "dinner_details": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::dinner-detail.dinner-detail",
+      "mappedBy": "dinner_info"
     }
   }
 }

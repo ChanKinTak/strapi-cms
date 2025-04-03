@@ -50,6 +50,9 @@
       "relation": "oneToMany",
       "target": "api::notification-read.notification-read",
       "mappedBy": "notification"
+    },
+    "startDate": {
+      "type": "datetime"
     }
   }
 }

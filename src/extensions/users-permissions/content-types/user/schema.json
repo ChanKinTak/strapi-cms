@@ -168,15 +168,25 @@
     "roomNumber": {
       "type": "string"
     },
-    "registrations_test": {
-      "type": "relation",
-      "relation": "oneToOne",
-      "target": "api::registrations-test.registrations-test",
-      "mappedBy": "relation"
-    },
     "hotelUpgradePaymentSettled": {
       "type": "boolean",
       "default": false
+    },
+    "calendar_event": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::event.event",
+      "inversedBy": "users_permissions_users"
+    },
+    "staff": {
+      "type": "boolean",
+      "default": false
+    },
+    "qr_code_events": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::qr-code-event.qr-code-event",
+      "mappedBy": "AllowedUsers"
     }
   }
 }
