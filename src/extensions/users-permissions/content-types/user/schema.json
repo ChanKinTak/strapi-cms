@@ -187,6 +187,12 @@
       "relation": "manyToMany",
       "target": "api::qr-code-event.qr-code-event",
       "mappedBy": "AllowedUsers"
+    },
+    "itinerary": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::itinerary.itinerary",
+      "inversedBy": "users_permissions_users"
     }
   }
 }

@@ -664,6 +664,43 @@ export interface ApiFlightDetailFlightDetail
   };
 }
 
+export interface ApiItineraryItinerary extends Struct.CollectionTypeSchema {
+  collectionName: 'itineraries';
+  info: {
+    displayName: 'Itinerary';
+    pluralName: 'itineraries';
+    singularName: 'itinerary';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    content: Schema.Attribute.Text;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    data: Schema.Attribute.Date;
+    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    isGlobal: Schema.Attribute.Boolean;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::itinerary.itinerary'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    title: Schema.Attribute.String;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_users: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
 export interface ApiJourneyJourney extends Struct.CollectionTypeSchema {
   collectionName: 'journeys';
   info: {
@@ -1578,6 +1615,10 @@ export interface PluginUsersPermissionsUser
     hotelUpgradePaymentSettled: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<false>;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    itinerary: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::itinerary.itinerary'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1679,6 +1720,7 @@ declare module '@strapi/strapi' {
       'api::event.event': ApiEventEvent;
       'api::faq.faq': ApiFaqFaq;
       'api::flight-detail.flight-detail': ApiFlightDetailFlightDetail;
+      'api::itinerary.itinerary': ApiItineraryItinerary;
       'api::journey.journey': ApiJourneyJourney;
       'api::map-location.map-location': ApiMapLocationMapLocation;
       'api::notification-read.notification-read': ApiNotificationReadNotificationRead;
