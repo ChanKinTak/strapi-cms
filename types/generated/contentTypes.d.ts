@@ -540,6 +540,7 @@ export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
       'oneToMany',
       'api::dinner-detail.dinner-detail'
     >;
+    isGlobal: Schema.Attribute.Boolean;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -552,6 +553,10 @@ export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    users_permissions_users: Schema.Attribute.Relation<
+      'oneToMany',
+      'plugin::users-permissions.user'
+    >;
   };
 }
 
@@ -1593,6 +1598,10 @@ export interface PluginUsersPermissionsUser
     day_one_activity_registrations_user: Schema.Attribute.Relation<
       'oneToMany',
       'api::day-one-activity-registration.day-one-activity-registration'
+    >;
+    dinner_info: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::dinner-info.dinner-info'
     >;
     email: Schema.Attribute.Email &
       Schema.Attribute.Required &

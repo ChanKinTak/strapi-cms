@@ -193,6 +193,12 @@
       "relation": "manyToOne",
       "target": "api::itinerary.itinerary",
       "inversedBy": "users_permissions_users"
+    },
+    "dinner_info": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::dinner-info.dinner-info",
+      "inversedBy": "users_permissions_users"
     }
   }
 }

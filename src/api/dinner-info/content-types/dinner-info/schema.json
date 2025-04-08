@@ -35,6 +35,15 @@
       "relation": "oneToMany",
       "target": "api::dinner-detail.dinner-detail",
       "mappedBy": "dinner_info"
+    },
+    "isGlobal": {
+      "type": "boolean"
+    },
+    "users_permissions_users": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "plugin::users-permissions.user",
+      "mappedBy": "dinner_info"
     }
   }
 }
