@@ -1699,6 +1699,8 @@ export interface PluginUsersPermissionsUser
       ]
     > &
       Schema.Attribute.DefaultTo<'team01'>;
+    top_qualifier_dinner: Schema.Attribute.Boolean &
+      Schema.Attribute.DefaultTo<false>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

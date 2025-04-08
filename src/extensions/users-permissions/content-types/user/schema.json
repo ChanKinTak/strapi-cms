@@ -199,6 +199,10 @@
       "relation": "manyToOne",
       "target": "api::dinner-info.dinner-info",
       "inversedBy": "users_permissions_users"
+    },
+    "top_qualifier_dinner": {
+      "type": "boolean",
+      "default": false
     }
   }
 }
