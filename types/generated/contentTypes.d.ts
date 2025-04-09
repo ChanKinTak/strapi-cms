@@ -553,8 +553,8 @@ export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_users: Schema.Attribute.Relation<
-      'oneToMany',
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
   };
@@ -701,8 +701,8 @@ export interface ApiItineraryItinerary extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_users: Schema.Attribute.Relation<
-      'oneToMany',
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
       'plugin::users-permissions.user'
     >;
   };
@@ -1601,8 +1601,8 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::day-one-activity-registration.day-one-activity-registration'
     >;
-    dinner_info: Schema.Attribute.Relation<
-      'manyToOne',
+    dinner_infos: Schema.Attribute.Relation<
+      'oneToMany',
       'api::dinner-info.dinner-info'
     >;
     email: Schema.Attribute.Email &
@@ -1626,8 +1626,8 @@ export interface PluginUsersPermissionsUser
     hotelUpgradePaymentSettled: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<false>;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
-    itinerary: Schema.Attribute.Relation<
-      'manyToOne',
+    itineraries: Schema.Attribute.Relation<
+      'oneToMany',
       'api::itinerary.itinerary'
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;

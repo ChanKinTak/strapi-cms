@@ -188,21 +188,21 @@
       "target": "api::qr-code-event.qr-code-event",
       "mappedBy": "AllowedUsers"
     },
-    "itinerary": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::itinerary.itinerary",
-      "inversedBy": "users_permissions_users"
-    },
-    "dinner_info": {
-      "type": "relation",
-      "relation": "manyToOne",
-      "target": "api::dinner-info.dinner-info",
-      "inversedBy": "users_permissions_users"
-    },
     "top_qualifier_dinner": {
       "type": "boolean",
       "default": false
+    },
+    "itineraries": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::itinerary.itinerary",
+      "mappedBy": "users_permissions_user"
+    },
+    "dinner_infos": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::dinner-info.dinner-info",
+      "mappedBy": "users_permissions_user"
     }
   }
 }
