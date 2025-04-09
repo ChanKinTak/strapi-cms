@@ -4,7 +4,8 @@
   "info": {
     "singularName": "itinerary",
     "pluralName": "itineraries",
-    "displayName": "Itinerary"
+    "displayName": "Itinerary",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -18,14 +19,15 @@
       "type": "text"
     },
     "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "data": {
       "type": "date"
@@ -42,6 +44,9 @@
       "relation": "oneToMany",
       "target": "plugin::users-permissions.user",
       "mappedBy": "itinerary"
+    },
+    "order": {
+      "type": "integer"
     }
   }
 }

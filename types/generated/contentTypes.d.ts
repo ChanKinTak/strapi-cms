@@ -672,6 +672,7 @@ export interface ApiFlightDetailFlightDetail
 export interface ApiItineraryItinerary extends Struct.CollectionTypeSchema {
   collectionName: 'itineraries';
   info: {
+    description: '';
     displayName: 'Itinerary';
     pluralName: 'itineraries';
     singularName: 'itinerary';
@@ -694,6 +695,7 @@ export interface ApiItineraryItinerary extends Struct.CollectionTypeSchema {
       'api::itinerary.itinerary'
     > &
       Schema.Attribute.Private;
+    order: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
