@@ -39,9 +39,9 @@
     "isGlobal": {
       "type": "boolean"
     },
-    "users_permissions_user": {
+    "users_permissions_users": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
       "inversedBy": "itineraries"
     },

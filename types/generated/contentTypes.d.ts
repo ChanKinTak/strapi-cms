@@ -553,8 +553,8 @@ export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
+    users_permissions_users: Schema.Attribute.Relation<
+      'manyToMany',
       'plugin::users-permissions.user'
     >;
   };
@@ -701,8 +701,8 @@ export interface ApiItineraryItinerary extends Struct.CollectionTypeSchema {
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
-    users_permissions_user: Schema.Attribute.Relation<
-      'manyToOne',
+    users_permissions_users: Schema.Attribute.Relation<
+      'manyToMany',
       'plugin::users-permissions.user'
     >;
   };
@@ -1602,7 +1602,7 @@ export interface PluginUsersPermissionsUser
       'api::day-one-activity-registration.day-one-activity-registration'
     >;
     dinner_infos: Schema.Attribute.Relation<
-      'oneToMany',
+      'manyToMany',
       'api::dinner-info.dinner-info'
     >;
     email: Schema.Attribute.Email &
@@ -1627,7 +1627,7 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.DefaultTo<false>;
     isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
     itineraries: Schema.Attribute.Relation<
-      'oneToMany',
+      'manyToMany',
       'api::itinerary.itinerary'
     >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
