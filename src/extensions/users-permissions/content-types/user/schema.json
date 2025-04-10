@@ -203,6 +203,15 @@
       "relation": "manyToMany",
       "target": "api::dinner-info.dinner-info",
       "mappedBy": "users_permissions_users"
+    },
+    "top_qualifier_dinner_status": {
+      "type": "enumeration",
+      "enum": [
+        "TBC",
+        "Attending",
+        "Not attending"
+      ],
+      "default": "TBC"
     }
   }
 }

@@ -4,7 +4,8 @@
   "info": {
     "singularName": "dinner-detail",
     "pluralName": "dinner-details",
-    "displayName": "dinner detail"
+    "displayName": "dinner detail",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -23,15 +24,16 @@
     "content_tc": {
       "type": "text"
     },
-    "image": {
+    "dinner_image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
       "allowedTypes": [
         "images",
         "files",
         "videos",
         "audios"
-      ],
-      "type": "media",
-      "multiple": false
+      ]
     },
     "order": {
       "type": "integer"

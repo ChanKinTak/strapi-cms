@@ -485,6 +485,7 @@ export interface ApiDinnerDetailDinnerDetail
   extends Struct.CollectionTypeSchema {
   collectionName: 'dinner_details';
   info: {
+    description: '';
     displayName: 'dinner detail';
     pluralName: 'dinner-details';
     singularName: 'dinner-detail';
@@ -498,12 +499,14 @@ export interface ApiDinnerDetailDinnerDetail
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    dinner_image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     dinner_info: Schema.Attribute.Relation<
       'manyToOne',
       'api::dinner-info.dinner-info'
     >;
     dinner_status: Schema.Attribute.Boolean;
-    image: Schema.Attribute.Media<'images' | 'files' | 'videos' | 'audios'>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -1703,6 +1706,10 @@ export interface PluginUsersPermissionsUser
       Schema.Attribute.DefaultTo<'team01'>;
     top_qualifier_dinner: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<false>;
+    top_qualifier_dinner_status: Schema.Attribute.Enumeration<
+      ['TBC', 'Attending', 'Not attending']
+    > &
+      Schema.Attribute.DefaultTo<'TBC'>;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
