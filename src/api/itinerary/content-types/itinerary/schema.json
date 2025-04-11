@@ -12,9 +12,6 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "title": {
-      "type": "string"
-    },
     "content": {
       "type": "text"
     },
@@ -49,6 +46,9 @@
       "type": "integer"
     },
     "time": {
+      "type": "string"
+    },
+    "name": {
       "type": "string"
     }
   }

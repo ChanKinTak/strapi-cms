@@ -662,10 +662,10 @@ export interface ApiItineraryItinerary extends Struct.CollectionTypeSchema {
       'api::itinerary.itinerary'
     > &
       Schema.Attribute.Private;
+    name: Schema.Attribute.String;
     order: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
     time: Schema.Attribute.String;
-    title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
