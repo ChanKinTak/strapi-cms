@@ -645,7 +645,7 @@ export interface ApiItineraryItinerary extends Struct.CollectionTypeSchema {
     singularName: 'itinerary';
   };
   options: {
-    draftAndPublish: true;
+    draftAndPublish: false;
   };
   attributes: {
     content: Schema.Attribute.Text;
