@@ -563,42 +563,6 @@ export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
   };
 }
 
-export interface ApiEventEvent extends Struct.CollectionTypeSchema {
-  collectionName: 'events';
-  info: {
-    description: '';
-    displayName: 'Calendar Event';
-    pluralName: 'events';
-    singularName: 'event';
-  };
-  options: {
-    draftAndPublish: true;
-  };
-  attributes: {
-    createdAt: Schema.Attribute.DateTime;
-    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    date: Schema.Attribute.Date;
-    description: Schema.Attribute.Blocks;
-    isActive: Schema.Attribute.Boolean &
-      Schema.Attribute.Required &
-      Schema.Attribute.DefaultTo<true>;
-    isGlobal: Schema.Attribute.Boolean & Schema.Attribute.Required;
-    locale: Schema.Attribute.String & Schema.Attribute.Private;
-    localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
-      Schema.Attribute.Private;
-    publishedAt: Schema.Attribute.DateTime;
-    title: Schema.Attribute.String & Schema.Attribute.Required;
-    updatedAt: Schema.Attribute.DateTime;
-    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
-      Schema.Attribute.Private;
-    users_permissions_users: Schema.Attribute.Relation<
-      'oneToMany',
-      'plugin::users-permissions.user'
-    >;
-  };
-}
-
 export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
   collectionName: 'faqs';
   info: {
@@ -700,6 +664,7 @@ export interface ApiItineraryItinerary extends Struct.CollectionTypeSchema {
       Schema.Attribute.Private;
     order: Schema.Attribute.Integer;
     publishedAt: Schema.Attribute.DateTime;
+    time: Schema.Attribute.String;
     title: Schema.Attribute.String;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
@@ -1593,7 +1558,6 @@ export interface PluginUsersPermissionsUser
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
-    calendar_event: Schema.Attribute.Relation<'manyToOne', 'api::event.event'>;
     confirmationToken: Schema.Attribute.String & Schema.Attribute.Private;
     confirmed: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     confitmRoommateRequest: Schema.Attribute.Boolean;
@@ -1737,7 +1701,6 @@ declare module '@strapi/strapi' {
       'api::day-one-activity-registration.day-one-activity-registration': ApiDayOneActivityRegistrationDayOneActivityRegistration;
       'api::dinner-detail.dinner-detail': ApiDinnerDetailDinnerDetail;
       'api::dinner-info.dinner-info': ApiDinnerInfoDinnerInfo;
-      'api::event.event': ApiEventEvent;
       'api::faq.faq': ApiFaqFaq;
       'api::flight-detail.flight-detail': ApiFlightDetailFlightDetail;
       'api::itinerary.itinerary': ApiItineraryItinerary;
