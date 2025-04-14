@@ -563,6 +563,34 @@ export interface ApiDinnerInfoDinnerInfo extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiEventEvent extends Struct.CollectionTypeSchema {
+  collectionName: 'events';
+  info: {
+    description: '';
+    displayName: 'event';
+    pluralName: 'events';
+    singularName: 'event';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    date: Schema.Attribute.Date;
+    desc: Schema.Attribute.Blocks;
+    isActive: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<'oneToMany', 'api::event.event'> &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiFaqFaq extends Struct.CollectionTypeSchema {
   collectionName: 'faqs';
   info: {
@@ -1701,6 +1729,7 @@ declare module '@strapi/strapi' {
       'api::day-one-activity-registration.day-one-activity-registration': ApiDayOneActivityRegistrationDayOneActivityRegistration;
       'api::dinner-detail.dinner-detail': ApiDinnerDetailDinnerDetail;
       'api::dinner-info.dinner-info': ApiDinnerInfoDinnerInfo;
+      'api::event.event': ApiEventEvent;
       'api::faq.faq': ApiFaqFaq;
       'api::flight-detail.flight-detail': ApiFlightDetailFlightDetail;
       'api::itinerary.itinerary': ApiItineraryItinerary;
