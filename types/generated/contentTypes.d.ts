@@ -1609,8 +1609,9 @@ export interface PluginUsersPermissionsUser
     employeeId: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
-    full_name: Schema.Attribute.String;
-    Group: Schema.Attribute.Enumeration<['Group01', 'Group02', 'Group03']>;
+    full_name: Schema.Attribute.String & Schema.Attribute.Required;
+    Group: Schema.Attribute.Enumeration<['Group01', 'Group02', 'Group03']> &
+      Schema.Attribute.Required;
     hotel_arrangement: Schema.Attribute.Enumeration<
       [
         'Prague Marriott Hotel',
@@ -1621,7 +1622,9 @@ export interface PluginUsersPermissionsUser
     >;
     hotelUpgradePaymentSettled: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<false>;
-    isFirstLogin: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<true>;
+    isFirstLogin: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     itineraries: Schema.Attribute.Relation<
       'manyToMany',
       'api::itinerary.itinerary'
@@ -1677,7 +1680,9 @@ export interface PluginUsersPermissionsUser
       'oneToMany',
       'api::roommate-request.roommate-request'
     >;
-    staff: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
+    staff: Schema.Attribute.Boolean &
+      Schema.Attribute.Required &
+      Schema.Attribute.DefaultTo<false>;
     team: Schema.Attribute.Enumeration<
       [
         'team01',
@@ -1696,13 +1701,13 @@ export interface PluginUsersPermissionsUser
         'zone12',
       ]
     > &
+      Schema.Attribute.Required &
       Schema.Attribute.DefaultTo<'team01'>;
     top_qualifier_dinner: Schema.Attribute.Boolean &
       Schema.Attribute.DefaultTo<false>;
     top_qualifier_dinner_status: Schema.Attribute.Enumeration<
       ['TBC', 'Attending', 'Not attending']
-    > &
-      Schema.Attribute.DefaultTo<'TBC'>;
+    >;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;

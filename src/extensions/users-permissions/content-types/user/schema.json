@@ -72,7 +72,8 @@
     },
     "isFirstLogin": {
       "type": "boolean",
-      "default": true
+      "default": false,
+      "required": true
     },
     "participation_response": {
       "type": "relation",
@@ -92,7 +93,8 @@
         "Group01",
         "Group02",
         "Group03"
-      ]
+      ],
+      "required": true
     },
     "registration": {
       "type": "relation",
@@ -110,7 +112,8 @@
       "type": "boolean"
     },
     "full_name": {
-      "type": "string"
+      "type": "string",
+      "required": true
     },
     "receivedRoommateRequests": {
       "type": "relation",
@@ -154,7 +157,8 @@
         "zone11",
         "zone12"
       ],
-      "default": "team01"
+      "default": "team01",
+      "required": true
     },
     "hotel_arrangement": {
       "type": "enumeration",
@@ -174,7 +178,8 @@
     },
     "staff": {
       "type": "boolean",
-      "default": false
+      "default": false,
+      "required": true
     },
     "qr_code_events": {
       "type": "relation",
@@ -204,8 +209,7 @@
         "TBC",
         "Attending",
         "Not attending"
-      ],
-      "default": "TBC"
+      ]
     }
   }
 }
