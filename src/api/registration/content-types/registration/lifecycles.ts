@@ -5,6 +5,7 @@ export default {
             return;
         }
         //console.log('afterCreate triggered for:', result.id);
+        /*
         try{
             await strapi.plugins['email'].services.email.send({
                 to:  `${result.email}`,     // 必須有效的郵箱地址
@@ -15,5 +16,6 @@ export default {
         } catch(err) {
             console.log(err);
         }
+            */
     }
 }
