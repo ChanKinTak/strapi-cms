@@ -507,6 +507,9 @@ export interface ApiDinnerDetailDinnerDetail
       'api::dinner-info.dinner-info'
     >;
     dinner_status: Schema.Attribute.Boolean;
+    floor_plan: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
