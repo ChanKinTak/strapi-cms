@@ -17,11 +17,16 @@ export default factories.createCoreController('api::notification.notification', 
       }
 
       // 修改查詢條件，只獲取已發布的通知
+      const today = new Date();
+      today.setHours(0, 0, 0, 0); //
       const notifications = await strapi.db.query('api::notification.notification').findMany({
         where: {
           $and: [
             {
               publishedAt: { $notNull: true }  // 只查詢已發布的
+            },
+            {
+              startDate: { $lte: today }
             },
             {
               $or: [

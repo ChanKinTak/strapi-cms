@@ -210,6 +210,9 @@
       "relation": "manyToMany",
       "target": "api::notification.notification",
       "inversedBy": "users"
+    },
+    "FCMToken": {
+      "type": "string"
     }
   }
 }
