@@ -180,12 +180,12 @@ async function checkScheduledNotifications(strapi) {
  * Notification lifecycle hooks
  */
 export default {
-    // 创建后钩子 - 简化的 Strapi v5 格式
+    // 创建后钩子 - 修复 Strapi v5 格式
     async afterCreate(event) {
       console.log(`afterCreate event received for notification: ${event.result?.id}`);
       
-      // 简化获取 strapi 实例的逻辑
-      const { strapi } = event;
+      // 正确获取 strapi 实例
+      const strapi = global.strapi || event.strapi;
       
       if (!strapi) {
         console.log('Strapi instance not available in afterCreate hook');
@@ -230,12 +230,12 @@ export default {
       }
     },
     
-    // 更新后钩子 - 简化的 Strapi v5 格式
+    // 更新后钩子 - 修复 Strapi v5 格式
     async afterUpdate(event) {
       console.log(`afterUpdate event received for notification: ${event.result?.id}`);
       
-      // 简化获取 strapi 实例的逻辑
-      const { strapi } = event;
+      // 正确获取 strapi 实例
+      const strapi = global.strapi || event.strapi;
       
       if (!strapi) {
         console.log('Strapi instance not available in afterUpdate hook');
