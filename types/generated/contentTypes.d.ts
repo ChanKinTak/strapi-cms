@@ -1612,7 +1612,7 @@ export interface PluginUsersPermissionsUser
     employeeId: Schema.Attribute.String &
       Schema.Attribute.Required &
       Schema.Attribute.Unique;
-    FCMToken: Schema.Attribute.String;
+    FCMToken: Schema.Attribute.Text;
     full_name: Schema.Attribute.String & Schema.Attribute.Required;
     Group: Schema.Attribute.Enumeration<['Group01', 'Group02', 'Group03']> &
       Schema.Attribute.Required;

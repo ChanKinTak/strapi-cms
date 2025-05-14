@@ -212,7 +212,7 @@
       "inversedBy": "users"
     },
     "FCMToken": {
-      "type": "string"
+      "type": "text"
     }
   }
 }
