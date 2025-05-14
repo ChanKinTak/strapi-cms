@@ -180,68 +180,26 @@ async function checkScheduledNotifications(strapi) {
  * Notification lifecycle hooks
  */
 export default {
-  // 创建后钩子 - Strapi v5 格式
-  async afterCreate({ result, params, state, service, container }) {
-    console.log(`afterCreate event received for notification: ${result.id}`);
-    
-    const strapi = state?.service?.strapi || container.get('strapi');
-    
-    if (!strapi) {
-      console.log('Strapi instance not available in afterCreate hook');
-      return;
-    }
-    
-    try {
-      // 检查通知是否已发布
-      if (!result.publishedAt) {
-        console.log(`Notification ${result.id} is not published yet, skipping push notification`);
+    // 创建后钩子 - 简化的 Strapi v5 格式
+    async afterCreate(event) {
+      console.log(`afterCreate event received for notification: ${event.result?.id}`);
+      
+      // 简化获取 strapi 实例的逻辑
+      const { strapi } = event;
+      
+      if (!strapi) {
+        console.log('Strapi instance not available in afterCreate hook');
         return;
       }
       
-      // 获取完整的通知数据
-      const notification = await strapi.entityService.findOne('api::notification.notification', result.id, {
-        populate: ['users']
-      });
-      
-      // 检查是否有计划发送时间
-      if (notification.startDate) {
-        const startDate = new Date(notification.startDate);
-        const now = new Date();
+      try {
+        const { result } = event;
         
-        if (startDate > now) {
-          console.log(`Notification ${notification.id} scheduled for ${notification.startDate}, will be sent automatically`);
+        // 检查通知是否已发布
+        if (!result.publishedAt) {
+          console.log(`Notification ${result.id} is not published yet, skipping push notification`);
           return;
         }
-      }
-      
-      // 检查 pushSent 是否为 true
-      if (notification.pushSent) {
-        console.log(`Notification ${notification.id} has pushSent=true, sending push notification`);
-        // 立即发送通知
-        await sendPushNotification(notification, strapi);
-      } else {
-        console.log(`Notification ${notification.id} has pushSent=false, skipping push notification`);
-      }
-    } catch (error) {
-      console.error('Error in notification afterCreate hook:', error);
-    }
-  },
-  
-  // 更新后钩子 - Strapi v5 格式
-  async afterUpdate({ result, params, state, service, container }) {
-    console.log(`afterUpdate event received for notification: ${result.id}`);
-    
-    const strapi = state?.service?.strapi || container.get('strapi');
-    
-    if (!strapi) {
-      console.log('Strapi instance not available in afterUpdate hook');
-      return;
-    }
-    
-    try {
-      // 检查通知是否发布且 pushSent 为 true
-      if (result.publishedAt && result.pushSent) {
-        console.log(`Notification ${result.id} was updated and has pushSent=true, checking if we need to send push notification`);
         
         // 获取完整的通知数据
         const notification = await strapi.entityService.findOne('api::notification.notification', result.id, {
@@ -259,27 +217,75 @@ export default {
           }
         }
         
-        // 立即发送通知
-        await sendPushNotification(notification, strapi);
-      } else {
-        console.log(`Notification ${result.id} was updated but has pushSent=false or is not published, skipping push notification`);
+        // 检查 pushSent 是否为 true
+        if (notification.pushSent) {
+          console.log(`Notification ${notification.id} has pushSent=true, sending push notification`);
+          // 立即发送通知
+          await sendPushNotification(notification, strapi);
+        } else {
+          console.log(`Notification ${notification.id} has pushSent=false, skipping push notification`);
+        }
+      } catch (error) {
+        console.error('Error in notification afterCreate hook:', error);
       }
-    } catch (error) {
-      console.error('Error in notification afterUpdate hook:', error);
+    },
+    
+    // 更新后钩子 - 简化的 Strapi v5 格式
+    async afterUpdate(event) {
+      console.log(`afterUpdate event received for notification: ${event.result?.id}`);
+      
+      // 简化获取 strapi 实例的逻辑
+      const { strapi } = event;
+      
+      if (!strapi) {
+        console.log('Strapi instance not available in afterUpdate hook');
+        return;
+      }
+      
+      try {
+        const { result } = event;
+        
+        // 检查通知是否发布且 pushSent 为 true
+        if (result.publishedAt && result.pushSent) {
+          console.log(`Notification ${result.id} was updated and has pushSent=true, checking if we need to send push notification`);
+          
+          // 获取完整的通知数据
+          const notification = await strapi.entityService.findOne('api::notification.notification', result.id, {
+            populate: ['users']
+          });
+          
+          // 检查是否有计划发送时间
+          if (notification.startDate) {
+            const startDate = new Date(notification.startDate);
+            const now = new Date();
+            
+            if (startDate > now) {
+              console.log(`Notification ${notification.id} scheduled for ${notification.startDate}, will be sent automatically`);
+              return;
+            }
+          }
+          
+          // 立即发送通知
+          await sendPushNotification(notification, strapi);
+        } else {
+          console.log(`Notification ${result.id} was updated but has pushSent=false or is not published, skipping push notification`);
+        }
+      } catch (error) {
+        console.error('Error in notification afterUpdate hook:', error);
+      }
     }
-  }
-};
-
-/**
- * 注册函数 - Strapi v5 格式
- */
-export function register({ strapi }) {
-  console.log('Registering scheduled notification check');
+  };
   
-  // 设置定时任务，每分钟检查一次计划通知
-  setInterval(() => {
-    checkScheduledNotifications(strapi).catch(err => {
-      console.error('Error in scheduled notification check:', err);
-    });
-  }, 60000); // 每分钟检查一次
-}
+  /**
+   * 注册函数 - 简化的 Strapi v5 格式
+   */
+  export function register({ strapi }) {
+    console.log('Registering scheduled notification check');
+    
+    // 设置定时任务，每分钟检查一次计划通知
+    setInterval(() => {
+      checkScheduledNotifications(strapi).catch(err => {
+        console.error('Error in scheduled notification check:', err);
+      });
+    }, 60000); // 每分钟检查一次
+  }
