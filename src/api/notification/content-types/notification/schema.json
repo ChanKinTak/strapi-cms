@@ -47,9 +47,9 @@
     },
     "notification_reads": {
       "type": "relation",
-      "relation": "oneToMany",
+      "relation": "manyToMany",
       "target": "api::notification-read.notification-read",
-      "mappedBy": "notification"
+      "mappedBy": "notifications"
     },
     "startDate": {
       "type": "datetime"
