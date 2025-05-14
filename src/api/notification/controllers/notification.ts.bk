@@ -60,16 +60,5 @@ export default factories.createCoreController('api::notification.notification', 
       console.error('Detailed error:', error);
       return ctx.badRequest('Failed to get unread count');
     }
-  },
-  async find(ctx) {
-    // 将上下文查询参数与默认排序合并
-    ctx.query = {
-      ...ctx.query,
-      sort: { startDate: 'desc' }
-    };
-
-    // 调用默认实现
-    const { data, meta } = await super.find(ctx);
-    return { data, meta };
   }
 }));
