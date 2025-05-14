@@ -2,7 +2,7 @@
 
 import * as admin from 'firebase-admin';
 import path from 'path';
-import type { Strapi } from '@strapi/types/dist/core'; // 修改为正确的导入路径
+import type { Strapi } from '@strapi/types/dist/core';
 
 // 接口定义
 interface Notification {
@@ -24,56 +24,72 @@ interface User {
   id: number;
   username?: string;
   email?: string;
-  FCMToken?: string;
+  FCMToken?: string; // 注意这里使用 FCMToken 而不是 fcmToken
 }
 
-// 初始化 Firebase Admin
+// 初始化 Firebase Admin - 使用环境变量
 if (!admin.apps.length) {
   try {
+    // 使用环境变量配置
     admin.initializeApp({
-    credential: admin.credential.cert({
+      credential: admin.credential.cert({
         projectId: process.env.FIREBASE_PROJECT_ID,
         privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
         clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-    }),
+      }),
     });
+    console.log('Firebase Admin SDK initialized successfully');
   } catch (error) {
     console.error('Error initializing Firebase Admin:', error);
   }
 }
 
-// 发送推送通知函数 - 替换 sendMulticast
+// 发送推送通知函数
 const sendPushNotification = async (
   notification: Notification,
   strapi: Strapi
 ): Promise<boolean> => {
   try {
+    // 如果 pushSent 为 false，不发送通知
+    if (notification.pushSent === false) {
+      console.log(`Notification ${notification.id} is marked as not to be sent (pushSent is false)`);
+      return false;
+    }
+    
     // 收集所有需要发送的令牌
     const tokens: string[] = [];
     
     // 如果通知有设备令牌，添加到列表
     if (notification.deviceTokens && Array.isArray(notification.deviceTokens)) {
       tokens.push(...notification.deviceTokens.filter(token => typeof token === 'string' && token.length > 0));
+      console.log(`Added ${tokens.length} tokens from deviceTokens field`);
     }
     
-    // 如果通知关联了用户，从用户中获取令牌
-    if (notification.users && notification.users.length > 0) {
-      // 获取所有关联用户的 FCM 令牌
+    // 处理用户关联的令牌
+    if (!notification.isGlobal && notification.users && notification.users.length > 0) {
+      // 非全局通知，只发送给关联的用户
+      console.log(`Non-global notification with ${notification.users.length} associated users`);
+      
       for (const user of notification.users) {
-        if (user.FCMToken) {
+        if (user.FCMToken) { // 注意这里使用 FCMToken 字段
+          console.log(`Adding token for user ${user.id}`);
           tokens.push(user.FCMToken);
+        } else {
+          console.log(`User ${user.id} has no FCM token`);
         }
       }
-    }
-    
-    // 如果是全局通知，可以考虑获取所有用户的令牌
-    if (notification.isGlobal) {
+    } else if (notification.isGlobal === true) {
+      // 全局通知，发送给所有有令牌的用户
+      console.log('This is a global notification, fetching all user tokens');
+      
       const allUsers = await strapi.entityService.findMany('plugin::users-permissions.user', {
         filters: {
-          FCMToken: { $notNull: true }
+          FCMToken: { $notNull: true } // 注意这里使用 FCMToken 字段
         },
         fields: ['id', 'FCMToken']
       }) as User[];
+      
+      console.log(`Found ${allUsers.length} users with FCM tokens`);
       
       for (const user of allUsers) {
         if (user.FCMToken) {
@@ -86,7 +102,7 @@ const sendPushNotification = async (
     const uniqueTokens = [...new Set(tokens)];
     
     if (uniqueTokens.length === 0) {
-      console.log(`No device tokens available for notification ${notification.id}`);
+      console.log(`No device tokens available for notification ${notification.id}. isGlobal=${notification.isGlobal}`);
       return false;
     }
     
@@ -125,6 +141,7 @@ const sendPushNotification = async (
             
             const result = await admin.messaging().send(message);
             successCount++;
+            console.log(`Successfully sent to token: ${token.substring(0, 10)}...`);
             return { success: true, token, result };
           } catch (error) {
             failureCount++;
@@ -132,14 +149,33 @@ const sendPushNotification = async (
             
             // 检查是否是令牌无效的错误
             const errorMessage = error instanceof Error ? error.message : 'Unknown error';
+            console.error(`Error sending to token ${token.substring(0, 10)}...: ${errorMessage}`);
+            
             const isInvalidToken = 
               errorMessage.includes('invalid-argument') || 
               errorMessage.includes('registration-token-not-registered');
             
             if (isInvalidToken) {
               // 处理无效令牌
-              console.log(`Invalid token detected: ${token}`);
-              // 这里可以添加清除无效令牌的逻辑
+              console.log(`Invalid token detected: ${token.substring(0, 10)}...`);
+              // 尝试找到拥有此令牌的用户并清除其令牌
+              try {
+                const users = await strapi.entityService.findMany('plugin::users-permissions.user', {
+                  filters: { FCMToken: token },
+                  fields: ['id']
+                });
+                
+                if (users && users.length > 0) {
+                  for (const user of users) {
+                    await strapi.entityService.update('plugin::users-permissions.user', user.id, {
+                      data: { FCMToken: null }
+                    });
+                    console.log(`Cleared invalid token for user ${user.id}`);
+                  }
+                }
+              } catch (cleanupError) {
+                console.error('Error cleaning up invalid token:', cleanupError);
+              }
             }
             
             return { success: false, token, error };
@@ -148,12 +184,7 @@ const sendPushNotification = async (
       );
     }
     
-    console.log(`Successfully sent notifications: ${successCount}/${successCount + failureCount}`);
-    
-    // 标记推送已发送
-    await strapi.entityService.update('api::notification.notification', notification.id, {
-      data: { pushSent: true }
-    });
+    console.log(`Push notification results: ${successCount} successful, ${failureCount} failed`);
     
     return successCount > 0;
   } catch (error) {
@@ -166,10 +197,10 @@ const sendPushNotification = async (
 const checkScheduledNotifications = async (strapi: Strapi): Promise<void> => {
   const now = new Date();
   
-  // 查找所有已发布、未发送推送且起始日期已到或未设置的通知
+  // 查找所有已发布、pushSent为true且起始日期已到或未设置的通知
   const notificationsToSend = await strapi.entityService.findMany('api::notification.notification', {
     filters: {
-      pushSent: false,
+      pushSent: true,
       publishedAt: { $notNull: true },
       $or: [
         { startDate: { $lte: now } },
@@ -221,8 +252,14 @@ export default {
         }
       }
       
-      // 立即发送通知
-      await sendPushNotification(notification, strapi);
+      // 检查 pushSent 是否为 true
+      if (notification.pushSent) {
+        console.log(`Notification ${notification.id} has pushSent=true, sending push notification`);
+        // 立即发送通知
+        await sendPushNotification(notification, strapi);
+      } else {
+        console.log(`Notification ${notification.id} has pushSent=false, skipping push notification`);
+      }
     } catch (error) {
       console.error('Error in notification lifecycle hook:', error);
     }
@@ -232,8 +269,10 @@ export default {
     const { result } = event;
     
     try {
-      // 只有当通知被发布且尚未发送推送时才发送
-      if (result.publishedAt && !result.pushSent) {
+      // 检查通知是否发布且 pushSent 为 true
+      if (result.publishedAt && result.pushSent) {
+        console.log(`Notification ${result.id} was updated and has pushSent=true, checking if we need to send push notification`);
+        
         // 获取完整的通知数据
         const notification = await strapi.entityService.findOne(
           'api::notification.notification', 
@@ -254,6 +293,8 @@ export default {
         
         // 立即发送通知
         await sendPushNotification(notification, strapi);
+      } else {
+        console.log(`Notification ${result.id} was updated but has pushSent=false or is not published, skipping push notification`);
       }
     } catch (error) {
       console.error('Error in notification update lifecycle hook:', error);
@@ -263,6 +304,8 @@ export default {
 
 // 注册启动函数
 export const register = ({ strapi }: { strapi: Strapi }) => {
+  console.log('Registering scheduled notification check');
+  
   // 设置定时任务，每分钟检查一次计划通知
   setInterval(() => {
     checkScheduledNotifications(strapi).catch(err => {
