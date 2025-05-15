@@ -794,8 +794,8 @@ export interface ApiNotificationReadNotificationRead
       'api::notification-read.notification-read'
     > &
       Schema.Attribute.Private;
-    notifications: Schema.Attribute.Relation<
-      'manyToMany',
+    notification: Schema.Attribute.Relation<
+      'manyToOne',
       'api::notification.notification'
     >;
     publishedAt: Schema.Attribute.DateTime;
@@ -836,7 +836,7 @@ export interface ApiNotificationNotification
       Schema.Attribute.Private;
     message: Schema.Attribute.Text & Schema.Attribute.Required;
     notification_reads: Schema.Attribute.Relation<
-      'manyToMany',
+      'oneToMany',
       'api::notification-read.notification-read'
     >;
     publishedAt: Schema.Attribute.DateTime;

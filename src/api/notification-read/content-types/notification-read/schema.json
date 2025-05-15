@@ -21,9 +21,9 @@
     "readAt": {
       "type": "datetime"
     },
-    "notifications": {
+    "notification": {
       "type": "relation",
-      "relation": "manyToMany",
+      "relation": "manyToOne",
       "target": "api::notification.notification",
       "inversedBy": "notification_reads"
     }
