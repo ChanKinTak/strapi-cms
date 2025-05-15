@@ -33,7 +33,7 @@
       "type": "relation",
       "relation": "manyToMany",
       "target": "plugin::users-permissions.user",
-      "mappedBy": "notifications"
+      "inversedBy": "notifications"
     },
     "isGlobal": {
       "type": "boolean",

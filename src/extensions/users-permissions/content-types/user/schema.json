@@ -205,14 +205,14 @@
         "Not attending"
       ]
     },
+    "FCMToken": {
+      "type": "text"
+    },
     "notifications": {
       "type": "relation",
       "relation": "manyToMany",
       "target": "api::notification.notification",
-      "inversedBy": "users"
-    },
-    "FCMToken": {
-      "type": "text"
+      "mappedBy": "users"
     }
   }
 }
