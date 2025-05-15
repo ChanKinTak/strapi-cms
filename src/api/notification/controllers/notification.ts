@@ -148,6 +148,7 @@ export default factories.createCoreController('api::notification.notification', 
             // 创建一个扁平化的响应对象 - 直接包含所有字段而不使用attributes包裹
             return {
               id: item.id,
+              documentId: fullNotification.documentId || null, // 添加documentId字段
               isGlobal: fullNotification.isGlobal || false,
               title: fullNotification.title,
               message: fullNotification.message,
@@ -165,6 +166,7 @@ export default factories.createCoreController('api::notification.notification', 
             if (item.attributes) {
               return {
                 id: item.id,
+                documentId: item.attributes.documentId || null, // 添加documentId字段
                 ...item.attributes,
                 users: (item.attributes.users?.data || []).map((u: any) => ({
                   id: u.id,
@@ -240,6 +242,7 @@ export default factories.createCoreController('api::notification.notification', 
             if (item.attributes) {
               return {
                 id: item.id,
+                documentId: item.attributes.documentId || null, // 添加documentId字段
                 ...item.attributes,
                 users: (item.attributes.users?.data || []).map((u: any) => ({
                   id: u.id,
