@@ -827,7 +827,7 @@ export interface ApiNotificationNotification
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     deviceTokens: Schema.Attribute.JSON;
-    isGlobal: Schema.Attribute.Boolean;
+    isGlobal: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',

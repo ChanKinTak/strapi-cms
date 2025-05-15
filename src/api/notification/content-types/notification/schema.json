@@ -36,7 +36,8 @@
       "mappedBy": "notifications"
     },
     "isGlobal": {
-      "type": "boolean"
+      "type": "boolean",
+      "default": false
     },
     "pushSent": {
       "type": "boolean",
