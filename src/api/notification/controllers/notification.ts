@@ -82,155 +82,133 @@ export default factories.createCoreController('api::notification.notification', 
         console.error('Error extracting userId:', e);
       }
       
-      // 修改查询参数，确保获取完整数据
-      let modifiedCtx = { ...ctx };
-      try {
-        const query = { ...ctx.query } as any;
-        if (!query.populate) {
-          query.populate = {};
-        } else if (typeof query.populate === 'string') {
-          try {
-            query.populate = JSON.parse(query.populate);
-          } catch (e) {
-            query.populate = {};
-          }
+      // 直接查询数据库，获取所有通知
+      let allNotifications = await strapi.entityService.findMany('api::notification.notification', {
+        sort: [{ startDate: 'desc' }],
+        populate: ['users']
+      }) as any[];
+      
+      console.log(`Found ${allNotifications.length} notifications in database`);
+      
+      // 检查全局通知和用户特定通知
+      const globalCount = allNotifications.filter(n => n.isGlobal === true).length;
+      console.log(`Global notifications: ${globalCount}`);
+      
+      // 详细记录每个通知的信息
+      allNotifications.forEach((notification, index) => {
+        console.log(`Notification ${index + 1} (ID: ${notification.id}):`);
+        console.log(`- Title: ${notification.title}`);
+        console.log(`- isGlobal: ${notification.isGlobal}`);
+        console.log(`- Users count: ${notification.users?.length || 0}`);
+        if (notification.users && notification.users.length > 0) {
+          console.log(`- User IDs: ${notification.users.map(u => u.id).join(', ')}`);
         }
-        
-        // 添加所有需要的关系填充
-        query.populate = {
-          ...query.populate,
-          users: true
-        };
-        
-        // 添加排序条件 - 按 startDate 逆序排列
-        query.sort = 'startDate:desc';
-        
-        modifiedCtx = { ...ctx, query };
-      } catch (e) {
-        console.error('Error modifying query:', e);
-      }
-      
-      // 调用原始查询
-      const originalResult = await super.find(modifiedCtx);
-      
-      // 如果原始数据为空，直接返回
-      if (!originalResult.data || !Array.isArray(originalResult.data) || originalResult.data.length === 0) {
-        return originalResult;
-      }
-      
-      // 确保所有通知都被正确处理 - 使用entityService获取完整数据
-      const enhancedNotifications = await Promise.all(
-        originalResult.data.map(async (item: any) => {
-          try {
-            // 使用entityService直接获取完整的通知数据
-            // 使用类型断言解决TypeScript错误
-            const notification = await strapi.entityService.findOne(
-              'api::notification.notification',
-              item.id,
-              { populate: ['users'] }
-            ) as any; // 使用any类型断言
-            
-            // 确保返回所有字段
-            return {
-              id: item.id,
-              documentId: notification.documentId || null,
-              isGlobal: notification.isGlobal || false,
-              title: notification.title || '',
-              message: notification.message || '',
-              type: notification.type || null,
-              startDate: notification.startDate || null,
-              users: (notification.users || []).map((user: any) => ({
-                id: user.id,
-                username: user.username || '',
-                email: user.email || ''
-              }))
-            };
-          } catch (error) {
-            console.error(`Error fetching complete notification ${item.id}:`, error);
-            
-            // 回退到使用attributes
-            return {
-              id: item.id,
-              documentId: item.attributes?.documentId || null,
-              isGlobal: item.attributes?.isGlobal || false,
-              title: item.attributes?.title || '',
-              message: item.attributes?.message || '',
-              type: item.attributes?.type || null,
-              startDate: item.attributes?.startDate || null,
-              users: (item.attributes?.users?.data || []).map((u: any) => ({
-                id: u.id,
-                username: u.attributes?.username || '',
-                email: u.attributes?.email || ''
-              }))
-            };
-          }
-        })
-      );
-      
-      // 应用过滤逻辑
-      const globalNotifications = enhancedNotifications.filter(item => item.isGlobal === true);
-      
-      // 如果有用户ID，获取与该用户关联的非全局通知
-      let userSpecificNotifications = [];
-      if (userId) {
-        userSpecificNotifications = enhancedNotifications.filter(item => {
-          // 跳过全局通知，因为已经包含在globalNotifications中
-          if (item.isGlobal === true) {
-            return false;
-          }
-          
-          // 检查用户是否在通知的users列表中
-          const users = item.users || [];
-          
-          return users.some(user => {
-            let userIdFromList = user.id;
-            if (typeof userIdFromList === 'string') {
-              userIdFromList = parseInt(userIdFromList, 10);
-            }
-            return userIdFromList === userId;
-          });
-        });
-      }
-      
-      // 合并全局通知和用户特定通知
-      const combinedNotifications = [...globalNotifications, ...userSpecificNotifications];
-      
-      // 如果没有通知可显示，但原始数据中有通知，返回所有通知
-      if (combinedNotifications.length === 0 && enhancedNotifications.length > 0) {
-        console.warn(`没有通知可显示给用户${userId}。返回所有通知。`);
-        
-        // 确保按startDate逆序排列
-        const sortedNotifications = [...enhancedNotifications].sort((a, b) => {
-          const dateA = a.startDate ? new Date(a.startDate).getTime() : 0;
-          const dateB = b.startDate ? new Date(b.startDate).getTime() : 0;
-          return dateB - dateA;
-        });
-        
-        return {
-          data: sortedNotifications,
-          meta: originalResult.meta
-        };
-      }
-      
-      // 确保按startDate逆序排列
-      const sortedNotifications = [...combinedNotifications].sort((a, b) => {
-        const dateA = a.startDate ? new Date(a.startDate).getTime() : 0;
-        const dateB = b.startDate ? new Date(b.startDate).getTime() : 0;
-        return dateB - dateA;
       });
       
+      // 检查用户特定通知的逻辑问题
+      if (userId) {
+        const userSpecificCount = allNotifications.filter(n => {
+          if (n.isGlobal === true) return false;
+          return (n.users || []).some(u => parseInt(String(u.id), 10) === userId);
+        }).length;
+        console.log(`User-specific notifications for user ${userId}: ${userSpecificCount}`);
+      }
+      
+      // 转换为扁平结构
+      const flattenedNotifications = allNotifications.map(notification => ({
+        id: notification.id,
+        documentId: notification.documentId || null,
+        isGlobal: notification.isGlobal || false,
+        title: notification.title || '',
+        message: notification.message || '',
+        type: notification.type || null,
+        startDate: notification.startDate || null,
+        users: (notification.users || []).map((user: any) => ({
+          id: user.id,
+          username: user.username || '',
+          email: user.email || ''
+        }))
+      }));
+      
+      // 不再使用复杂的过滤逻辑，而是使用简单直接的过滤
+      // 条件1: 通知是全局的 (isGlobal === true)
+      // 条件2: 通知不是全局的，但用户在users列表中
+      const filteredNotifications = flattenedNotifications.filter(notification => {
+        // 条件1: 通知是全局的
+        if (notification.isGlobal === true) {
+          return true;
+        }
+        
+        // 条件2: 通知不是全局的，但用户在users列表中
+        if (userId) {
+          return notification.users.some(user => {
+            const userIdNum = typeof user.id === 'string' ? parseInt(user.id, 10) : user.id;
+            return userIdNum === userId;
+          });
+        }
+        
+        // 如果没有用户ID且通知不是全局的，则不显示
+        return false;
+      });
+      
+      console.log(`Filtered notifications count: ${filteredNotifications.length}`);
+      
+      // 如果过滤后没有通知，但存在通知，返回所有可见通知
+      if (filteredNotifications.length === 0 && flattenedNotifications.length > 0) {
+        console.log(`没有通知可显示给用户${userId}。返回所有可见通知。`);
+        
+        // 最简单的备选方案：返回所有全局通知
+        const onlyGlobalNotifications = flattenedNotifications.filter(n => n.isGlobal === true);
+        
+        // 如果有全局通知，返回全局通知；否则返回所有通知
+        if (onlyGlobalNotifications.length > 0) {
+          console.log(`返回 ${onlyGlobalNotifications.length} 个全局通知`);
+          return {
+            data: onlyGlobalNotifications,
+            meta: { 
+              pagination: { 
+                page: 1, 
+                pageSize: onlyGlobalNotifications.length, 
+                pageCount: 1, 
+                total: onlyGlobalNotifications.length 
+              } 
+            }
+          };
+        } else {
+          console.log(`没有全局通知。返回所有通知。`);
+          return {
+            data: flattenedNotifications,
+            meta: { 
+              pagination: { 
+                page: 1, 
+                pageSize: flattenedNotifications.length, 
+                pageCount: 1, 
+                total: flattenedNotifications.length 
+              } 
+            }
+          };
+        }
+      }
+      
       return {
-        data: sortedNotifications,
-        meta: originalResult.meta
+        data: filteredNotifications,
+        meta: { 
+          pagination: { 
+            page: 1, 
+            pageSize: filteredNotifications.length, 
+            pageCount: 1, 
+            total: filteredNotifications.length 
+          } 
+        }
       };
     } catch (error) {
       console.error('Error in notification controller:', error);
       try {
-        // 如果主要方法失败，使用直接的数据库查询作为备用
+        // 最简单的备选方案
         const notifications = await strapi.entityService.findMany('api::notification.notification', {
           sort: [{ startDate: 'desc' }],
-          populate: ['users']
-        }) as any[]; // 使用any[]类型断言
+          filters: { isGlobal: true }  // 只获取全局通知作为备选
+        }) as any[];
         
         // 转换为所需的响应格式
         const data = notifications.map(notification => ({
@@ -241,11 +219,7 @@ export default factories.createCoreController('api::notification.notification', 
           message: notification.message || '',
           type: notification.type || null,
           startDate: notification.startDate || null,
-          users: (notification.users || []).map((user: any) => ({
-            id: user.id,
-            username: user.username || '',
-            email: user.email || ''
-          }))
+          users: []  // 简化用户列表
         }));
         
         return {
