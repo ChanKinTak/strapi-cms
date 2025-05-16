@@ -64,12 +64,15 @@ export default factories.createCoreController('api::notification.notification', 
     }
   },
   
+  // 重写 find 方法 - 处理所有通知的查询
   async find(ctx) {
     try {
+      // 使用类型断言处理ctx.query
+      const query = ctx.query as Record<string, any>;
+      
       // 获取用户ID
       let userId = null;
       try {
-        const query = ctx.query as any;
         if (query?.populate?.notification_reads?.filters?.user?.id?.$eq) {
           userId = query.populate.notification_reads.filters.user.id.$eq;
           
@@ -82,114 +85,108 @@ export default factories.createCoreController('api::notification.notification', 
         console.error('Error extracting userId:', e);
       }
       
-      // 直接查询数据库，获取所有通知
-      let allNotifications = await strapi.entityService.findMany('api::notification.notification', {
-        sort: [{ startDate: 'desc' }],
-        populate: ['users']
-      }) as any[];
+      // 检查是否有ID过滤器
+      const hasIdFilter = query?.filters?.id?.$eq;
       
-      console.log(`Found ${allNotifications.length} notifications in database`);
-      
-      // 检查全局通知和用户特定通知
-      const globalCount = allNotifications.filter(n => n.isGlobal === true).length;
-      console.log(`Global notifications: ${globalCount}`);
-      
-      // 详细记录每个通知的信息
-      allNotifications.forEach((notification, index) => {
-        console.log(`Notification ${index + 1} (ID: ${notification.id}):`);
-        console.log(`- Title: ${notification.title}`);
-        console.log(`- isGlobal: ${notification.isGlobal}`);
-        console.log(`- Users count: ${notification.users?.length || 0}`);
-        if (notification.users && notification.users.length > 0) {
-          console.log(`- User IDs: ${notification.users.map(u => u.id).join(', ')}`);
+      // 如果有ID过滤器，手动获取单个通知
+      if (hasIdFilter) {
+        console.log(`Detected ID filter: ${hasIdFilter}, getting single notification`);
+        
+        // 使用db.query而不是entityService，确保能使用where条件
+        const notification = await strapi.db.query('api::notification.notification').findOne({
+          where: { 
+            id: hasIdFilter,
+            publishedAt: { $notNull: true }  // 必须是已发布的通知
+          },
+          populate: ['users']
+        });
+        
+        if (!notification) {
+          return ctx.notFound('Notification not found or not published');
         }
-      });
-      
-      // 检查用户特定通知的逻辑问题
-      if (userId) {
-        const userSpecificCount = allNotifications.filter(n => {
-          if (n.isGlobal === true) return false;
-          return (n.users || []).some(u => parseInt(String(u.id), 10) === userId);
-        }).length;
-        console.log(`User-specific notifications for user ${userId}: ${userSpecificCount}`);
+        
+        // 转换为前端友好格式 - 返回扁平结构，不使用attributes包裹
+        return {
+          data: {
+            id: notification.id,
+            documentId: notification.documentId || null,
+            isGlobal: notification.isGlobal === true,
+            title: notification.title || '',
+            message: notification.message || '',
+            type: notification.type || null,
+            startDate: notification.startDate || null,
+            publishedAt: notification.publishedAt,
+            users: (notification.users || []).map((user: any) => ({
+              id: user.id,
+              username: user.username || '',
+              email: user.email || ''
+            }))
+          }
+        };
       }
       
-      // 转换为扁平结构
-      const flattenedNotifications = allNotifications.map(notification => ({
-        id: notification.id,
-        documentId: notification.documentId || null,
-        isGlobal: notification.isGlobal || false,
-        title: notification.title || '',
-        message: notification.message || '',
-        type: notification.type || null,
-        startDate: notification.startDate || null,
-        users: (notification.users || []).map((user: any) => ({
-          id: user.id,
-          username: user.username || '',
-          email: user.email || ''
-        }))
-      }));
+      // 为所有通知的常规查询 - 使用db.query而不是entityService
+      console.log('查询已发布的通知');
+      const notifications = await strapi.db.query('api::notification.notification').findMany({
+        where: {
+          publishedAt: { $notNull: true }  // 只获取已发布的通知
+        },
+        orderBy: [{ startDate: 'desc' }],
+        populate: ['users']
+      });
       
-      // 不再使用复杂的过滤逻辑，而是使用简单直接的过滤
-      // 条件1: 通知是全局的 (isGlobal === true)
-      // 条件2: 通知不是全局的，但用户在users列表中
-      const filteredNotifications = flattenedNotifications.filter(notification => {
-        // 条件1: 通知是全局的
-        if (notification.isGlobal === true) {
+      console.log(`获取到 ${notifications.length} 条已发布的通知`);
+      
+      // 检查publishedAt字段
+      notifications.forEach((notification, index) => {
+        console.log(`通知 ${index + 1} (ID: ${notification.id}): publishedAt = ${notification.publishedAt}`);
+      });
+      
+      // 转换为前端友好格式
+      const formattedNotifications = notifications.map(notification => {
+        // 确保所有字段存在且格式正确
+        return {
+          id: notification.id,
+          documentId: notification.documentId || null,
+          isGlobal: notification.isGlobal === true,
+          title: notification.title || '',
+          message: notification.message || '',
+          type: notification.type || null,
+          startDate: notification.startDate || null,
+          publishedAt: notification.publishedAt,
+          users: (notification.users || []).map((user: any) => ({
+            id: user.id,
+            username: user.username || '',
+            email: user.email || ''
+          }))
+        };
+      });
+      
+      // 应用过滤逻辑
+      const filteredNotifications = formattedNotifications.filter(item => {
+        // 全局通知对所有人可见
+        if (item.isGlobal === true) {
           return true;
         }
         
-        // 条件2: 通知不是全局的，但用户在users列表中
-        if (userId) {
-          return notification.users.some(user => {
-            const userIdNum = typeof user.id === 'string' ? parseInt(user.id, 10) : user.id;
-            return userIdNum === userId;
-          });
+        // 如果没有用户ID，只返回全局通知
+        if (!userId) {
+          return false;
         }
         
-        // 如果没有用户ID且通知不是全局的，则不显示
-        return false;
+        // 检查用户是否在通知的users列表中
+        const users = item.users || [];
+        
+        return users.some(user => {
+          let userIdFromList = user.id;
+          if (typeof userIdFromList === 'string') {
+            userIdFromList = parseInt(userIdFromList, 10);
+          }
+          return userIdFromList === userId;
+        });
       });
       
-      console.log(`Filtered notifications count: ${filteredNotifications.length}`);
-      
-      // 如果过滤后没有通知，但存在通知，返回所有可见通知
-      if (filteredNotifications.length === 0 && flattenedNotifications.length > 0) {
-        console.log(`没有通知可显示给用户${userId}。返回所有可见通知。`);
-        
-        // 最简单的备选方案：返回所有全局通知
-        const onlyGlobalNotifications = flattenedNotifications.filter(n => n.isGlobal === true);
-        
-        // 如果有全局通知，返回全局通知；否则返回所有通知
-        if (onlyGlobalNotifications.length > 0) {
-          console.log(`返回 ${onlyGlobalNotifications.length} 个全局通知`);
-          return {
-            data: onlyGlobalNotifications,
-            meta: { 
-              pagination: { 
-                page: 1, 
-                pageSize: onlyGlobalNotifications.length, 
-                pageCount: 1, 
-                total: onlyGlobalNotifications.length 
-              } 
-            }
-          };
-        } else {
-          console.log(`没有全局通知。返回所有通知。`);
-          return {
-            data: flattenedNotifications,
-            meta: { 
-              pagination: { 
-                page: 1, 
-                pageSize: flattenedNotifications.length, 
-                pageCount: 1, 
-                total: flattenedNotifications.length 
-              } 
-            }
-          };
-        }
-      }
-      
+      // 返回结果
       return {
         data: filteredNotifications,
         meta: { 
@@ -202,34 +199,60 @@ export default factories.createCoreController('api::notification.notification', 
         }
       };
     } catch (error) {
-      console.error('Error in notification controller:', error);
-      try {
-        // 最简单的备选方案
-        const notifications = await strapi.entityService.findMany('api::notification.notification', {
-          sort: [{ startDate: 'desc' }],
-          filters: { isGlobal: true }  // 只获取全局通知作为备选
-        }) as any[];
-        
-        // 转换为所需的响应格式
-        const data = notifications.map(notification => ({
+      console.error('Error in notification find controller:', error);
+      return { data: [], meta: { pagination: { page: 1, pageSize: 25, pageCount: 0, total: 0 } } };
+    }
+  },
+  
+  // 重写 findOne 方法 - 处理特定ID的查询（用于路由 /notifications/:id）
+  async findOne(ctx, next) {
+    try {
+      // 获取要查询的通知ID
+      const { id } = ctx.params;
+      
+      if (!id) {
+        return ctx.badRequest('Missing notification ID');
+      }
+      
+      console.log(`Looking for notification with ID: ${id}`);
+      
+      // 使用db.query而不是entityService
+      const notification = await strapi.db.query('api::notification.notification').findOne({
+        where: { 
+          id: id,
+          publishedAt: { $notNull: true }  // 必须是已发布的通知
+        },
+        populate: ['users']
+      });
+      
+      if (!notification) {
+        return ctx.notFound('Notification not found or not published');
+      }
+      
+      // 打印publishedAt字段值以便调试
+      console.log(`通知 ${id} 的 publishedAt 值: ${notification.publishedAt}`);
+      
+      // 转换为前端友好格式 - 返回扁平结构，不使用attributes包裹
+      return {
+        data: {
           id: notification.id,
           documentId: notification.documentId || null,
-          isGlobal: notification.isGlobal || false,
+          isGlobal: notification.isGlobal === true,
           title: notification.title || '',
           message: notification.message || '',
           type: notification.type || null,
           startDate: notification.startDate || null,
-          users: []  // 简化用户列表
-        }));
-        
-        return {
-          data,
-          meta: { pagination: { page: 1, pageSize: data.length, pageCount: 1, total: data.length } }
-        };
-      } catch (e) {
-        console.error('Error in fallback find:', e);
-        return { data: [], meta: { pagination: { page: 1, pageSize: 25, pageCount: 0, total: 0 } } };
-      }
+          publishedAt: notification.publishedAt,
+          users: (notification.users || []).map((user: any) => ({
+            id: user.id,
+            username: user.username || '',
+            email: user.email || ''
+          }))
+        }
+      };
+    } catch (error) {
+      console.error('Error in notification findOne controller:', error);
+      return ctx.badRequest('Cannot retrieve the requested notification');
     }
   }
 }));

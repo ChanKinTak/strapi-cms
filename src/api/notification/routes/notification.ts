@@ -13,7 +13,12 @@ export default {
       {
         method: 'GET',
         path: '/notifications', 
-        handler: 'notification.find'
+        handler: 'notification.find',
+        config: {
+          // 关键：禁用此路由的认证
+          auth: false,
+          policies: []
+        }
       },
       // 新加入的未讀計數路由
       {
