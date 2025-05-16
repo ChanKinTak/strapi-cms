@@ -121,6 +121,14 @@ export default factories.createCoreController('api::notification.notification', 
               username: user.username || '',
               email: user.email || ''
             }))
+          },
+          meta: { 
+            pagination: { 
+              page: 1, 
+              pageSize: 1, 
+              pageCount: 1, 
+              total: 1 
+            } 
           }
         };
       }
