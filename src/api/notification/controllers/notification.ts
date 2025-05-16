@@ -107,7 +107,7 @@ export default factories.createCoreController('api::notification.notification', 
         
         // 转换为前端友好格式 - 返回扁平结构，不使用attributes包裹
         return {
-          data: {
+          data: [{
             id: notification.id,
             documentId: notification.documentId || null,
             isGlobal: notification.isGlobal === true,
@@ -121,15 +121,7 @@ export default factories.createCoreController('api::notification.notification', 
               username: user.username || '',
               email: user.email || ''
             }))
-          },
-          meta: { 
-            pagination: { 
-              page: 1, 
-              pageSize: 1, 
-              pageCount: 1, 
-              total: 1 
-            } 
-          }
+          }]
         };
       }
       
