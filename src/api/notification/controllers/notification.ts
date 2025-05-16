@@ -209,7 +209,7 @@ export default factories.createCoreController('api::notification.notification', 
       });
       
       // 如果过滤后无数据但原始数据存在，返回所有原始数据
-      /*
+      
       if (filteredNotifications.length === 0 && enhancedNotifications.length > 0) {
         console.warn('Filtering removed all notifications. Returning all data instead.');
         return {
@@ -217,7 +217,7 @@ export default factories.createCoreController('api::notification.notification', 
           meta: originalResult.meta
         };
       }
-      */
+      
       // 确保按 startDate 逆序排列
       const sortedNotifications = [...filteredNotifications].sort((a, b) => {
         // 防止空值
